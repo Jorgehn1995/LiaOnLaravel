@@ -35,8 +35,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('profesores', 'ProfesoresController');
     Route::resource('asesores', 'AsesoresController');
 
-
-    //Route::resource('usuarios', 'UsuariosController');
 });
 
 
