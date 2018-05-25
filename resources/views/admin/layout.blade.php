@@ -150,7 +150,7 @@
                                     <a href="{{route('profesores.index')}}">Profesores</a>
                                 </li>
                                 <li>
-                                    <a href="../notas/cp.php">Asesores</a>
+                                    <a href="{{route('asesores.index')}}">Asesores</a>
                                 </li>
 
 
