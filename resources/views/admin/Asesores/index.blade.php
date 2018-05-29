@@ -35,7 +35,7 @@
                             <form action="{{ route('asesores.destroy',  $item->idasesor) }}" method="post">
                                 {{ csrf_field() }} {{ method_field('delete') }}
                                 <button type="button" title="Editar" onclick="location.href='{{ route('asesores.edit', $item->idasesor) }}'" class="btn btn-warning"><i class="ti ti-pencil"></i></button>
-                                <button class="btn btn-danger" title="Eliminar" onclick="return confirm('¿seguro que deseas eliminar el asesor {{$item->letra}} de {{$item->grado}} del {{$item->nombre}}?')"
+                                <button class="btn btn-danger" title="Eliminar" onclick="return confirm('¿seguro que deseas eliminar el asesor de {{$item->grado}} {{$item->corto}} {{$item->letra}}?')"
                                     type="submit"><i class="ti ti-trash"></i></button>
                             </form>
                         </div>
@@ -43,7 +43,7 @@
                 </tr>
                 @empty
                 <td colspan="5">
-                    <div class="text-center">No existen niveles registrados</div>
+                    <div class="text-center">No existen asesores registrados</div>
                 </td>
 
                 @endforelse
