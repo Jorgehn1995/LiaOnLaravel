@@ -17,6 +17,9 @@ class Nivel extends Model
     public function grados(){
         return $this->hasMany('App\Grado','idnivel');
     }
+    public function cuadros(){
+        return $this->hasMany('App\Cuadro','idnivel');
+    }
     public function secciones(){
         return $this->hasManyThrough(Seccion::class, Grado::class, 'idnivel', 'idgrado');
     }

@@ -161,7 +161,7 @@
                                 <i class=" ti ti-clipboard  "></i>Calificaciones</a>
                             <ul class="submenu">
                                 <li>
-                                    <a href="../materias/">Modelo Calificación</a>
+                                    <a href="{{route('cuadros.index')}}">Modelo Calificación</a>
                                 </li>
                                 <li>
                                     <a href="../grados/">Modelo Actividades</a>

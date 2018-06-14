@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('secciones', 'SeccionesController');
     Route::resource('profesores', 'ProfesoresController');
     Route::resource('asesores', 'AsesoresController');
+    Route::resource('cuadros', 'CuadrosController');
 
 });
 
