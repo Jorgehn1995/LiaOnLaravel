@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title> {{Auth::User()->institucion->abr}} :.  @yield('title')</title>
+    <title> {{Auth::User()->institucion->abr}} :. @yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="Sistema para el control de notas escolares" name="description" />
     <meta content="Jorge Hernandez" name="author" />
@@ -51,7 +51,7 @@
                         <li class="list-inline-item dropdown notification-list ">
                             <a class="nav-link dropdown-toggle waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                 aria-expanded="false">
-                                <img src="images/icons/user.png" alt="user" class="rounded-circle">
+                                <img src="{{ASSET('images/app/user.jpg')}}" alt="user" class="rounded-circle">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
                                 <!-- item-->
@@ -135,58 +135,10 @@
                         </li>
                         <li class="has-submenu">
                             <a href="#">
-                                <i class="ti ti-ruler-pencil"></i>Administrativo</a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="{{route('niveles.index')}}">Niveles</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('grados.index')}}">Grados</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('secciones.index')}}">Secciones</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('profesores.index')}}">Profesores</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('asesores.index')}}">Asesores</a>
-                                </li>
-
-
-                            </ul>
-                        </li>
-                        <li class="has-submenu">
-                            <a href="#">
-                                <i class=" ti ti-clipboard  "></i>Calificaciones</a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="{{route('cuadros.index')}}">Modelo Calificación</a>
-                                </li>
-                                <li>
-                                    <a href="../grados/">Modelo Actividades</a>
-                                </li>
-                                <li>
-                                    <a href="../notas/cp.php">Materias Base</a>
-                                </li>
-                                <li>
-                                    <a href="../notas/cp.php">Asignaturas</a>
-                                </li>
-                                <li>
-                                    <a href="../notas/cp.php">Asignaciones</a>
-                                </li>
-                                <li>
-                                    <a href="../notas/cp.php">Horarios</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                        <li class="has-submenu">
-                            <a href="#">
                                 <i class=" ti-stats-up"></i>Reportes</a>
                             <ul class="submenu">
                                 <li>
-                                    <a href="../materias/">Notas</a>
+                                    <a href="../materias/">Calificaciones</a>
                                 </li>
                                 <li>
                                     <a href="../grados/">Cuadro de Honor</a>
@@ -205,16 +157,10 @@
                                 <i class=" ti-panel"></i>Herramientas</a>
                             <ul class="submenu">
                                 <li>
-                                    <a href="../materias/">Bloque Actual</a>
+                                    <a href="../materias/">Bloques de Calificacion</a>
                                 </li>
                                 <li>
                                     <a href="../grados/">Archivos</a>
-                                </li>
-                                <li>
-                                    <a href="../notas/cp.php">Acceso Padres</a>
-                                </li>
-                                <li>
-                                    <a href="../notas/cp.php">Acceso Alumnos</a>
                                 </li>
                                 <li>
                                     <a href="../notas/cp.php">Finalizar Ciclo</a>
@@ -222,6 +168,45 @@
 
                             </ul>
                         </li>
+                        <li class="has-submenu">
+                                <a href="#">
+                                    <i class="ti ti-settings"></i>Ajustes</a>
+                                <ul class="submenu">
+                                    <li class="dropdown-header">Grados y Secciones</li>
+                                    <li>
+                                        <a href="{{route('niveles.index')}}">Niveles/Carreras</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('grados.index')}}">Grados</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('secciones.index')}}">Secciones</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('profesores.index')}}">Profesores</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('asesores.index')}}">Asesores</a>
+                                    </li>
+                                    <li class="dropdown-header">Cuadro de Calificación</li>
+                                    <li>
+                                        <a href="{{route('cuadros.index')}}">Modelo Calificación</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('modelos.index')}}">Actividades Obligatorias</a>
+                                    </li>
+                                    <li class="dropdown-header">Cursos</li>
+                                    <li>
+                                        <a href="{{route('asignaturas.index')}}">Asignaturas</a>
+                                    </li>
+                                    <li>
+                                        <a href="../notas/cp.php">Asignar Profesor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../notas/cp.php">Horarios</a>
+                                    </li>
+                                </ul>
+                            </li>
                     </ul>
 
                     <!-- End navigation menu -->
@@ -260,7 +245,7 @@
             <!-- end page title end breadcrumb -->
             <div class="row">
                 <div class="col-md-12">
-                   @include('flash::message')
+    @include('flash::message')
                 </div>
             </div>
             <div class="row">

@@ -10,12 +10,12 @@
     
     <div class="card-box">
         
-        <h4>@yield('title') {{$nivel->nombre}}</h4>
+                    <h4>@yield('title') {{$nivel->nombre}}</h4>
 
         <hr>
         <table class="table table-hover table-striped wrap" wrap>
             <thead>
-                <tr>
+                        <tr>
                     <td>ID</td>
                     <td>Nombre</td>
                     <td>Descripción</td>

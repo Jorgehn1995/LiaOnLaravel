@@ -13,5 +13,8 @@ class Cuadro extends Model
     public function nivel(){
         return $this->belongsTo('App\Nivel','idnivel');
     }
-
+    public function modelos(){
+        return $this->hasMany('App\Modelo','idcuadro')->orderBy('orden');
+    }
+    
 }

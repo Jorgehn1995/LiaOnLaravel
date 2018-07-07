@@ -14,8 +14,10 @@ class Grado extends Model
     public function nivel(){
         return $this->belongsTo('App\Nivel','idnivel');
     }
-
     public function secciones(){
         return $this->hasMany('App\Seccion','idgrado');
+    }
+    public function asignaturas(){
+        return $this->hasMany('App\Asignatura','idgrado');
     }
 }

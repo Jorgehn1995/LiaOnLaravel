@@ -27,25 +27,36 @@
                 <form method="POST" action="{{route('cuadros.store')}}">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="nombre" class="control-label">Nombre</label>
-                                <input type="text" required class="form-control" name="nombre" value="{{old('nombre')}}" placeholder="Se utiliza para ordenar los grados">
+                                <label for="idnivel" class="control-label">Nivel Educativo</label>
+                                <select name="idnivel" required id="" class="form-control">
+                                    @foreach($niveles as $nivel)
+                                        <option value="{{$nivel->idnivel}}">{{$nivel->nombre}}</option>
+                                    @endforeach
+                                </select>
+                            
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label for="nombre" class="control-label">Nombre</label>
+                                <input type="text" required class="form-control" name="nombre" value="{{old('nombre')}}" >
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="descripcion" class="control-label">Descripción</label>
                                 <input type="text" name="descripcion" class="form-control" value="{{old('descripcion')}}" id="">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="ponderacion" class="control-label">Ponderación</label>
                                 <input type="number" name="ponderacion" class="form-control" value="{{old('ponderación')}}" id="">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="orden" class="control-label">Orden</label>
                                 <input type="number" name="orden" class="form-control" value="{{old('grado')}}" id="">

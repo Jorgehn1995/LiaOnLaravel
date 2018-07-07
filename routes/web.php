@@ -35,7 +35,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('profesores', 'ProfesoresController');
     Route::resource('asesores', 'AsesoresController');
     Route::resource('cuadros', 'CuadrosController');
-
+    Route::resource('modelos', 'ModelosController');
+    Route::get('modelos/create/{idnivel}', 'ModelosController@create');
+    Route::resource('asignaturas', 'AsignaturasController');
 });
 
 
