@@ -20,6 +20,7 @@ class Nivel extends Model
     public function cuadros(){
         return $this->hasMany('App\Cuadro','idnivel');
     }
+    
     public function modelos(){
         return $this->hasManyThrough(Modelo::class, Cuadro::class, 'idnivel', 'idcuadro');
     }

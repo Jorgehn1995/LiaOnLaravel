@@ -13,4 +13,7 @@ class Asignatura extends Model
     public function grado(){
         return $this->belongsTo('App\Grado','idgrado');
     }
+    public function asignaciones(){
+        return $this->hasMany('App\Asignacion','idasignatura');
+    }
 }

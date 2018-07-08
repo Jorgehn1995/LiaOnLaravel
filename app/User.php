@@ -39,4 +39,11 @@ class User extends Authenticatable
     public function institucion(){
         return $this->belongsTo('App\Institucion','idinstitucion');
     }
+    public function asignacion(){
+        return $this->belongsTo('App\Asignacion','idusuario');
+    }
+    public function asignaciones(){
+        return $this->hasMany('App\Asignacion','idusuario');
+    }
+    
 }

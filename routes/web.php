@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('asignaturas', 'AsignaturasController');
     Route::get('asignaturas/create/{idgrado}', 'AsignaturasController@create');
     Route::resource('asignaciones', 'AsignacionesController');
+    Route::get('asignaciones/create/{idgrado}', 'AsignacionesController@create');
 });
 
 

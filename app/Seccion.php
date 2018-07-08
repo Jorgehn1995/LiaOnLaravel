@@ -17,4 +17,7 @@ class Seccion extends Model
     public function informaciones(){
         return $this->hasMany('App\Informaciones');
     }
+    public function asignaciones(){
+        return $this->hasMany('App\Asignacion','idseccion');
+    }
 }
