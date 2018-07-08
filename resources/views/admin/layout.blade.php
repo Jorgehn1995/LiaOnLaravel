@@ -24,11 +24,8 @@
             <div class="container-fluid">
                 <div class="logo hide-phone">
                     <a href="index.html" class="logo">
-
                         <span class="logo-large">
                             {{Auth::User()->institucion->abr}}
-                            
-
                         </span>
                         <!--<img src="images/logo_sm.png" alt="" height="24" class="logo-sm">-->
                     </a>
@@ -107,9 +104,6 @@
                 <div id="navigation">
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
-
-
-
                         <li class="has-submenu">
                             <a href="{{route('logincheck')}}">
                                 <i class="ti-home"></i>Inicio</a>
