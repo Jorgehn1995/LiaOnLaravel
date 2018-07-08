@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Cuadro;
 use App\Modelo;
 use App\Nivel;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Laracasts\Flash\Flash;
-
+use Illuminate\Http\Request;
 class ModelosController extends Controller
 {
     public function sinauto()
     {
         flash("Error, el elemento no se encuentra no se encuentra o no tienes autorización para realizar esta acción")->error()->important();
+        return $this->index();
+    }
+    public function show()
+    {
         return $this->index();
     }
     public function index()

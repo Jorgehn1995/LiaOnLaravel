@@ -18,6 +18,6 @@ class Grado extends Model
         return $this->hasMany('App\Seccion','idgrado');
     }
     public function asignaturas(){
-        return $this->hasMany('App\Asignatura','idgrado');
+        return $this->hasMany('App\Asignatura','idgrado')->orderBy('orden');;
     }
 }

@@ -38,6 +38,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('modelos', 'ModelosController');
     Route::get('modelos/create/{idnivel}', 'ModelosController@create');
     Route::resource('asignaturas', 'AsignaturasController');
+    Route::get('asignaturas/create/{idgrado}', 'AsignaturasController@create');
+    Route::resource('asignaciones', 'AsignacionesController');
 });
 
 

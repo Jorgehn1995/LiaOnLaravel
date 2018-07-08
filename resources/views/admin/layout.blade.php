@@ -200,7 +200,7 @@
                                         <a href="{{route('asignaturas.index')}}">Asignaturas</a>
                                     </li>
                                     <li>
-                                        <a href="../notas/cp.php">Asignar Profesor</a>
+                                        <a href="{{route('asignaciones.index')}}">Asignar Profesor</a>
                                     </li>
                                     <li>
                                         <a href="../notas/cp.php">Horarios</a>
