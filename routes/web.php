@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('asignaciones', 'AsignacionesController');
     Route::get('asignaciones/create/{idgrado}', 'AsignacionesController@create');
     Route::resource('horarios', 'HorariosController');
+    Route::resource('alumnos', 'AlumnosController');
 });
 
 

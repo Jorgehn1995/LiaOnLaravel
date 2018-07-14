@@ -7,6 +7,9 @@ File: Main Css
 /*===================================
   Menu
   ===================================*/
+.hide {
+ display: none;
+}
 .topbar {
   left: 0;
   position: fixed;
@@ -55,13 +58,27 @@ File: Main Css
 }
 
 .navbar-custom {
-  background-color: #343c49;
+  background: #23a6d5;
+background: -moz-linear-gradient(left, #23a6d5 0%, #23bfbe 32%, #23d5ab 59%);
+background: -webkit-gradient(left top, right top, color-stop(0%, #23a6d5), color-stop(32%, #23bfbe), color-stop(59%, #23d5ab));
+background: -webkit-linear-gradient(left, #23a6d5 0%, #23bfbe 32%, #23d5ab 59%);
+background: -o-linear-gradient(left, #23a6d5 0%, #23bfbe 32%, #23d5ab 59%);
+background: -ms-linear-gradient(left, #23a6d5 0%, #23bfbe 32%, #23d5ab 59%);
+background: linear-gradient(to right, #23a6d5 0%, #23bfbe 32%, #23d5ab 59%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23a6d5', endColorstr='#23d5ab', GradientType=1 );
+  /*background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);*/
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 15s ease infinite;
+	-moz-animation: Gradient 15s ease infinite;
+	animation: Gradient 15s ease infinite;
   border-radius: 0;
   margin-bottom: 0;
   padding: 0 10px 0 0;
   margin-left: 240px;
   min-height: 70px;
 }
+
+
 
 .navbar-custom .nav-link {
   padding: 0;
@@ -236,7 +253,7 @@ body.fixed-left .side-menu.left {
   display: inline-block;
   height: 70px;
   width: 60px;
-  background-color: #343c49;
+  background: transparent;
   font-size: 24px;
 }
 

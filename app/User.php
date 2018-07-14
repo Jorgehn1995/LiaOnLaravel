@@ -32,7 +32,9 @@ class User extends Authenticatable
     public function informaciones(){
         return $this->hasMany('App\Informacion');
     }
-
+    public function inscripciones(){
+        return $this->hasMany('App\Inscripcion','idusuario');
+    }
     public function tipo(){
         return $this->belongsTo('App\TipoUsuario','idtipousuario');
     }

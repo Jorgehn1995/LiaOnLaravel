@@ -90,46 +90,9 @@
                             <a href="javascript:void(0);" class="dropdown-item notify-item notify-all">
                                     View All
                                 </a>
-
                         </div>
                     </li>
-
-                    <li class="list-inline-item dropdown notification-list">
-                        <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
-                            aria-expanded="false">
-                                <img src="{{asset('theme 2/images/users/avatar-1.jpg')}}" alt="user" class="rounded-circle">
-                            </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
-                            <!-- item-->
-                            <div class="dropdown-item noti-title">
-                                <h5 class="text-overflow"><small>Welcome ! John</small> </h5>
-                            </div>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="mdi mdi-account"></i> <span>Profile</span>
-                                </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="mdi mdi-settings"></i> <span>Settings</span>
-                                </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="mdi mdi-lock-open"></i> <span>Lock Screen</span>
-                                </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="mdi mdi-logout"></i> <span>Logout</span>
-                                </a>
-
-                        </div>
-                    </li>
-
                 </ul>
-
                 <ul class="list-inline menu-left mb-0">
                     <li class="float-left">
                         <button class="button-menu-mobile open-left waves-light waves-effect">
@@ -169,7 +132,7 @@
                                     <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li>
-                                    <a href="#">Inscripciones</a>
+                                    <a href="{{route('alumnos.create')}}">Inscripciones</a>
                                 </li>
                                 <li>
                                     <a href="#">Alumnos</a>
@@ -205,7 +168,7 @@
                         </li>
 
 
-                        <li class="menu-title">Herramientas</li>
+                        
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="ti-panel"></i>
                                         <span> Herramientas </span> <span class="menu-arrow"></span> </a>
@@ -221,10 +184,17 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="menu-title">Configuraciones</li>
                         <li>
-                                <a href="{{route('ajustes.index')}}" class="waves-effect waves-primary"><i
-                                            class="ti-settings"></i><span> Ajustes </span></a>
-                            </li>
+                            <a href="{{route('ajustes.index')}}" class="waves-effect waves-primary">
+                                <i class="ti-settings"></i><span> Ajustes </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('logout')}}" class="waves-effect waves-primary">
+                                <i class="ti-power-off"></i><span> Cerrar Sesión </span>
+                            </a>
+                        </li>
                     </ul>
 
                     <div class="clearfix"></div>
@@ -417,6 +387,7 @@
     <script src="{{asset('theme 2/js/jquery.min.js')}}"></script>
     <script src="{{asset('theme 2/js/popper.min.js')}}"></script>
     <!-- Popper for Bootstrap -->
+    <script src="{{asset('theme 2/js/funciones.js')}}"></script>
     <script src="{{asset('theme 2/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('theme 2/js/detect.js')}}"></script>
     <script src="{{asset('theme 2/js/fastclick.js')}}"></script>

@@ -12,11 +12,11 @@
     <link rel="shortcut icon" href="images/favicon.ico">
 
     <!-- App css -->
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('css/icons.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('theme 1/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('theme 1/css/icons.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('theme 1/css/style.css')}}" rel="stylesheet" type="text/css" />
 
-    <script src="{{asset('js/modernizr.min.js')}}"></script>
+    <script src="{{asset('theme 1/js/modernizr.min.js')}}"></script>
 
 </head>
 
@@ -86,18 +86,18 @@
 
 
     <!-- jQuery  -->
-    <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/popper.min.js')}}"></script>
+    <script src="{{asset('theme 1/js/jquery.min.js')}}"></script>
+    <script src="{{asset('theme 1/js/popper.min.js')}}"></script>
     <!-- Popper for Bootstrap -->
     <!-- Tether for Bootstrap -->
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/waves.js')}}"></script>
-    <script src="{{asset('js/jquery.slimscroll.js')}}"></script>
-    <script src="{{asset('js/jquery.scrollTo.min.js')}}"></script>
+    <script src="{{asset('theme 1/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('theme 1/js/waves.js')}}"></script>
+    <script src="{{asset('theme 1/js/jquery.slimscroll.js')}}"></script>
+    <script src="{{asset('theme 1/js/jquery.scrollTo.min.js')}}"></script>
 
     <!-- App js -->
-    <script src="{{asset('js/jquery.core.js')}}"></script>
-    <script src="{{asset('js/jquery.app.js')}}"></script>
+    <script src="{{asset('theme 1/js/jquery.core.js')}}"></script>
+    <script src="{{asset('theme 1/js/jquery.app.js')}}"></script>
 
 </body>
 
