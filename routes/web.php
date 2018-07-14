@@ -29,6 +29,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/',function(){
         return view('admin.index');
     })->name('admin.index');
+    Route::get('/ajustes',function(){
+        return view('admin.ajustes.index');
+    })->name('ajustes.index');
     Route::resource('niveles', 'NivelesController');
     Route::resource('grados', 'GradosController');
     Route::resource('secciones', 'SeccionesController');
@@ -41,6 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('asignaturas/create/{idgrado}', 'AsignaturasController@create');
     Route::resource('asignaciones', 'AsignacionesController');
     Route::get('asignaciones/create/{idgrado}', 'AsignacionesController@create');
+    Route::resource('horarios', 'HorariosController');
 });
 
 

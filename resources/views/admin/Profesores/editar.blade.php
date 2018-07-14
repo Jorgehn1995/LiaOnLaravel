@@ -1,4 +1,4 @@
-@extends('master.layout') 
+@extends('admin.layout') 
 @section('title', "Editar Usuarios") 
 @section('content')
 

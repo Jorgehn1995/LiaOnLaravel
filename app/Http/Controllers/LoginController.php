@@ -16,7 +16,7 @@ class LoginController extends Controller
     public function authlogin(Request $request)
     {
         //dd($request->all());
-        $credentials = $request->only('usuario', 'password');
+        $credentials = $request->only('usuario', 'password','recordar');
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
