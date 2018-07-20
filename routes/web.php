@@ -46,6 +46,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('asignaciones/create/{idgrado}', 'AsignacionesController@create');
     Route::resource('horarios', 'HorariosController');
     Route::resource('alumnos', 'AlumnosController');
+    Route::get('alumnos/inscripcion/{idalumno}', 'AlumnosController@inscripcion')->name('alumnos.inscripcion');;
+    Route::POST('alumnos/inscribir/', 'AlumnosController@inscribir')->name('alumnos.inscribir');;
+    Route::get('alumnos/comprobante/{idinscripcion}', 'AlumnosController@comprobante')->name('alumnos.comprobante');;
 });
 
 

@@ -13,6 +13,11 @@
 
 
     <link href="{{asset('theme 2/plugins/switchery/switchery.min.css')}}" rel="stylesheet" type="text/css" />
+    
+    <link href="{{asset('theme 2/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('theme 2/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('theme 2/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+
     <link href="{{asset('theme 2/plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
 
     <link href="{{asset('theme 2/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -135,7 +140,7 @@
                                     <a href="{{route('alumnos.create')}}">Inscripciones</a>
                                 </li>
                                 <li>
-                                    <a href="#">Alumnos</a>
+                                    <a href="{{route('alumnos.index')}}">Alumnos</a>
                                 </li>
                                 <li>
                                     <a href="#">Asignar Seccion</a>
@@ -387,11 +392,25 @@
     <script src="{{asset('theme 2/js/jquery.min.js')}}"></script>
     <script src="{{asset('theme 2/js/popper.min.js')}}"></script>
     <!-- Popper for Bootstrap -->
-    <script src="{{asset('theme 2/js/funciones.js')}}"></script>
+    
     <script src="{{asset('theme 2/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('theme 2/js/detect.js')}}"></script>
     <script src="{{asset('theme 2/js/fastclick.js')}}"></script>
     <script src="{{asset('theme 2/js/jquery.slimscroll.js')}}"></script>
+
+    <!-- Datatables -->
+    <script src="{{asset('theme 2/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/accent-neutralise.js')}}"></script>
+
+    <!-- Buttons examples -->
+    <script src="{{asset('theme 2/plugins/datatables/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/jszip.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/pdfmake.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/vfs_fonts.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('theme 2/plugins/datatables/buttons.print.min.js')}}"></script>
 
 
     <script src="{{asset('theme 2/js/waves.js')}}"></script>
@@ -405,7 +424,7 @@
     <script src="{{asset('theme 2/js/jquery.core.js')}}"></script>
     <script src="{{asset('theme 2/js/jquery.app.js')}}"></script>
 
-
+    <script src="{{asset('theme 2/js/funciones.js')}}"></script>
 </body>
 
 </html>

@@ -1,0 +1,17 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Estado extends Model
+{
+    protected $table = "estados";
+    protected $primaryKey ="idestado";
+    protected $fillable = ['estado','color'];
+    public $timestamps = false;
+    public function inscripcion(){
+        return $this->belongsTo('App\Inscripcion','idestado');
+    }
+    
+}

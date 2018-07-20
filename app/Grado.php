@@ -20,4 +20,7 @@ class Grado extends Model
     public function asignaturas(){
         return $this->hasMany('App\Asignatura','idgrado')->orderBy('orden');;
     }
+    public function inscripcion(){
+        return $this->hasMany("App\Inscripcion","idgrado");
+    }
 }

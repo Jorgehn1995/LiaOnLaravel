@@ -160,7 +160,7 @@
         <div class="card-box">
             <div class="col-md-12">
                 <button type="button" onclick="location.href='{{route('alumnos.index')}}'" class="btn btn-secondary"><i class="ti-arrow-left"></i> Regresar</button>
-                <button type="submit" class="btn btn-success"><i class="ti-save"></i> Inscribir</button>
+                <button type="submit" class="btn btn-success"><i class="ti-save"></i> Registrar</button>
             </div>
         </div>
     </form>

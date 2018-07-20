@@ -30,10 +30,13 @@ class User extends Authenticatable
     ];
 
     public function informaciones(){
-        return $this->hasMany('App\Informacion');
+        return $this->hasOne('App\Informacion','idusuario');
     }
     public function inscripciones(){
         return $this->hasMany('App\Inscripcion','idusuario');
+    }
+    public function inscripcion(){
+        return $this->belongsTo('App\Inscripcion','idusuario');
     }
     public function tipo(){
         return $this->belongsTo('App\TipoUsuario','idtipousuario');
