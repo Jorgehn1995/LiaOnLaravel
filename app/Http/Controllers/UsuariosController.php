@@ -33,7 +33,6 @@ class UsuariosController extends Controller
         $usuario->save();
         Flash::success("El usuario " . $usuario->nombre . " " . $usuario->apellido . " se ha creado exitosamente");
         return redirect()->route('usuarios.index');
-
     }
     public function destroy($id)
     {
@@ -50,6 +49,7 @@ class UsuariosController extends Controller
     }
     public function update(Request $request, $id)
     {
+    
         $usuario = User::findOrFail($id);
         $usuario->nombre = $request->nombre;
         $usuario->apellido = $request->apellido;

@@ -11,7 +11,7 @@ class Estado extends Model
     protected $fillable = ['estado','color'];
     public $timestamps = false;
     public function inscripcion(){
-        return $this->belongsTo('App\Inscripcion','idestado');
+        return $this->hasMany('App\Inscripcion','idestado');
     }
     
 }

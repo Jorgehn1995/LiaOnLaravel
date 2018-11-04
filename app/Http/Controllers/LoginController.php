@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laracasts\Flash\Flash;
-
+use App\User;
+use View;
 class LoginController extends Controller
 {
     public function index()
@@ -16,17 +17,29 @@ class LoginController extends Controller
     public function authlogin(Request $request)
     {
         //dd($request->all());
-        $credentials = $request->only('usuario', 'password','recordar');
+        $credentials = $request->only('usuario', 'password', 'recordar');
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             $user = Auth::user();
-            if ($user->idtipousuario == 1) {
-                return redirect('master');
+            $name=explode(" ",Auth::User()->nombre);
+            $lastname=explode(" ",Auth::User()->apellido);
+            $last="";
+            if(!isset($lastname[1])){
+                //dd($lastname[0]);
+                if ($lastname[0]=="De" ||$lastname[0]=="de"){
+                    $last=$lastname[0]." ".$lastname[1];
+                }else{
+                    $last=$lastname[0];
+                }
+            }else{
+                $last=$lastname[0];
             }
-            if ($user->idtipousuario == 2) {
-                return redirect('admin');
-            }
+            $user->socialname=$name[0]." ".$last;
+            $user->save();
+            $this->redirectTo = url()->previous(); //LO AGREGAMOS PARA OBTENER LA URL ANTERIOR
+            
+            return redirect('admin');
         } else {
             flash("Usuario o Contraseña Invalido")->error();
 
@@ -42,13 +55,32 @@ class LoginController extends Controller
     public function check()
     {
         if (Auth::check()) {
-            $usuario=Auth::User();
             
-            if($usuario->idtipousuario==2){
+
+
+
+            $usuario = Auth::User();
+            $name=explode(" ",Auth::User()->nombre);
+            $lastname=explode(" ",Auth::User()->apellido);
+            $last="";
+            if(!is_null($lastname[1])){
+                //dd($lastname[0]);
+                if ($lastname[0]=="De" ||$lastname[0]=="de"){
+                    $last=$lastname[0]." ".$lastname[1];
+                }else{
+                    $last=$lastname[0];
+                }
+            }else{
+                $last=$lastname[0];
+            }
+            $usuario->socialname=$name[0]." ".$last;
+            $usuario->save();
+        
+            if ($usuario->idtipousuario == 2) {
                 return redirect('admin');
             }
-        }else {
-            
+        } else {
+
             return redirect('login');
         }
 

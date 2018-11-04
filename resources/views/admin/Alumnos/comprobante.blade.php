@@ -15,9 +15,9 @@
         <div class="col-md-12">
             <div class="d-print-none">
                 <div class="text-right">
-                        <a href="{{URL::previous()}}" class="btn btn-secondary waves-effect waves-light"><i class="ti-arrow-left"></i> Regresar </a>
+                    <a href="{{URL::previous()}}" class="btn btn-secondary waves-effect waves-light"><i class="ti-arrow-left"></i> Regresar </a>
                     <a href="javascript:window.print()" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print"></i> Imprimir </a>
-                
+
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-md-12">
                             <div class="pull-left m-t-30">
                                 <address>
                                     <strong>{{Auth::User()->institucion->abr}}</strong><br>
@@ -52,19 +52,20 @@
                             </div>
                             <div class="pull-right m-t-30">
                                 <p><strong>Fecha de Inscripcion: </strong> {{date("d/m/Y",strtotime($inscripcion->created_at))}}</p>
-                                
+                                <p><strong>Estado del Alumno: </strong> <span class="badge badge-{{$inscripcion->estado->color}}">{{$inscripcion->estado->estado}}</span></p>
+
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h6>Alumno Inscrito</h6>
+                        <div class="col-md-12 ">
+                            <h6>Información del Alumno</h6>
                             <hr>
 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-md-12">
                             <div class="table-responsive">
                                 <table class="table ">
                                     <thead>
@@ -72,6 +73,8 @@
                                             <th>#</th>
                                             <th>Codigo</th>
                                             <th>Alumno</th>
+                                            <th>Nacimiento</th>
+                                            <th>Género</th>
                                             <th>Ciclo</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
@@ -82,51 +85,38 @@
                                             <td>1</td>
                                             <td>{{$inscripcion->usuario->informaciones->codigo}}</td>
                                             <td>{{$inscripcion->usuario->nombre." ".$inscripcion->usuario->apellido}}</td>
+                                            <td>{{date("d/m/Y",strtotime($inscripcion->usuario->nacimiento))}}</td>
+                                            <td>{{($inscripcion->usuario->genero=="M")?"Masculino":"Fememino"}}</td>
                                             <td>{{$inscripcion->ciclo}}</td>
                                             <td>{{$inscripcion->grado->grado." ".$inscripcion->grado->nivel->corto}}</td>
-                                            <td><span class="badge badge-warning">PENDIENTE</span></td>
+                                            <td>@if(!$inscripcion->seccion)<span class="badge badge-warning">PENDIENTE</span>@else{{$inscripcion->seccion->letra}}@endif</td>
                                         </tr>
 
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
                     </div>
+
                     <div class="row m-t-50">
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-6">
                             <h6>Datos del Encargado</h6>
                             <hr>
-
+                            <p class="text-left"><b>Encargado: </b> {{$inscripcion->usuario->informaciones->encargado}} </p>
+                            <p class="text-left"><b>Telefono de Encargado: </b>{{$inscripcion->usuario->informaciones->telencargado}}</p>
+                            <p class="text-left"><b>Otras Informaciones: </b> {{$inscripcion->usuario->informaciones->otro}}</p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table class="table ">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Encargado</th>
-                                            <th>Telefono</th>
-                                            <th>Otras Informaciones</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>{{$inscripcion->usuario->informaciones->encargado}}</td>
-                                            <td>{{$inscripcion->usuario->informaciones->telencargado}}</td>
-                                            <td>{{$inscripcion->usuario->informaciones->otro}}</td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="col-md-6">
+                            <h6>Acceso al Sistema de Calificaciones</h6>
+                            <hr>
+                            <p class="text-left"><b>Página Web: </b> {{Auth::User()->institucion->url}} </p>
+                            <p class="text-left"><b>Usuario: </b>{{$inscripcion->usuario->informaciones->codigo}}</p>
+                            <p class="text-left"><b>Contraseña: </b> {{date("Y",strtotime($inscripcion->usuario->nacimiento))}}</p>
                         </div>
                     </div>
                     <div class="row m-t-40">
-                        <div class="col-6">
+                        <div class="col-md-12">
                             <div class="clearfix ">
                                 <h5 class="small"><b>ACCESO AL SISTEMA DE CALIFICACIONES</b></h5>
                                 <small>
@@ -134,20 +124,15 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="col-6 m-t-20">
-                            <p class="text-left"><b>Página Web: </b> {{Auth::User()->institucion->url}} </p>
-                            <p class="text-left"><b>Usuario: </b>{{$inscripcion->usuario->informaciones->codigo}}</p>
-                            <p class="text-left"><b>Contraseña: </b> {{date("Y",strtotime($inscripcion->usuario->nacimiento))}}</p>
-
-                        </div>
-                    </div>
-                    <div class="row m-t-40">
-                        <div class="col-md-12 text-center">
-                        <p class="text-muted">{{Auth::User()->institucion->abr}} | © Sistema de Calificaciones LIA {{date("Y")}}</p>
-                        </div>
                     </div>
                     <hr>
-                    
+                    <div class="row m-t-40">
+                        <div class="col-md-12 text-center">
+                            <p class="text-muted">{{Auth::User()->institucion->abr}} | © Sistema de Calificaciones LIA {{date("Y")}}</p>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>

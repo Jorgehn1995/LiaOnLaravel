@@ -9,7 +9,7 @@ class Inscripcion extends Model
     protected $table="Inscripciones";
     protected $primaryKey="idinscripcion";
     protected $fillable = [
-        'idusuario','idgrado', 'idseccion', 'clave','ciclo'
+        'idusuario','idgrado', 'idseccion', 'clave','ciclo','resultado','comentario','idestado','idinstitucion','encargado','contacto','direccion','nombre','apellido','foto','codigo','registrador','actualizador','nacimiento'
     ];
 
     public function usuario(){
@@ -22,6 +22,9 @@ class Inscripcion extends Model
         return $this->belongsTo('App\User','idusuario');
     }
     public function estado(){
-        return $this->hasOne('App\Estado','idestado');
+        return $this->belongsTo('App\Estado','idestado');
+    }
+    public function seccion(){
+        return $this->belongsTo('App\Seccion','idseccion');
     }
 }

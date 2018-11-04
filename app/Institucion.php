@@ -16,4 +16,7 @@ class Institucion extends Model
     public function usuario(){
         return $this->hasMany('App\User','idinstitucion');
     }
+    public function administradores(){
+        return $this->hasMany('App\Administrador','idinstitucion');
+    }
 }

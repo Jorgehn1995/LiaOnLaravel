@@ -17,7 +17,7 @@ class User extends Authenticatable
     protected $table="Usuarios";
     protected $primaryKey="idusuario";
     protected $fillable = [
-        'nombre','apellido', 'usuario','idtipousuario', 'genero', 'nacimiento'
+       'idusuario', 'nombre','apellido', 'usuario','idtipousuario', 'genero', 'nacimiento', 'socialname'
     ];
 
     /**
@@ -28,7 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
+    public function administradores(){
+        return $this->hasMany('App\Administrador','idusuario');
+    }
     public function informaciones(){
         return $this->hasOne('App\Informacion','idusuario');
     }

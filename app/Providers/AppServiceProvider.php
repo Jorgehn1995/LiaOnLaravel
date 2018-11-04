@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Administrador;
+use App\Asignacion;
+use App\Inscripcion;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +18,53 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        View::composer(['*'], function ($view) {
+            
+            if (Auth::User()) {
+                if(Auth::User()->idtipousuario==2){
+                    $auth = Administrador::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
+                    if (!$auth) {
+                        $auth = new \stdClass;
+                        $auth->admin = 0;
+                        $auth->profesor = 0;
+                    }
+                    
+                    $view->with("mainmenu", $auth);
+                }
+                if(Auth::User()->idtipousuario==3){
+                    $auth = Administrador::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
+                    if (!$auth) {
+                        $auth = new \stdClass;
+                        $auth->admin = 0;
+                        $auth->profesor = 0;
+                    }
+                    $asignaciones = Asignacion::where('idusuario', Auth::User()->idusuario)->select('idasignatura')->groupBy('idasignatura')->get();
+                    $asignaciones->each(function ($asignaciones) {
+                        $asignaciones->asignatura;
+                    });
+                    $view->with("mainmenu", $auth)->with('mnuasignaturas', $asignaciones);
+                }
+                if(Auth::User()->idtipousuario==4){
+                    $auth = Administrador::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
+                    if (!$auth) {
+                        $auth = new \stdClass;
+                        $auth->admin = 0;
+                        $auth->profesor = 0;
+                    }
+                    $asignaciones = Asignacion::where('idusuario', Auth::User()->idusuario)->select('idasignatura')->groupBy('idasignatura')->get();
+                    $asignaciones->each(function ($asignaciones) {
+                        $asignaciones->asignatura;
+                    });
+                    $notas = Inscripcion::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User())->orderBy('created_at', 'DESC')->first();
+    
+                    //dd($notas);
+                    $view->with("mainmenu", $auth)->with('mnuasignaturas', $asignaciones)->with('notas', $notas);
+                    
+                }
+                
+            }
+        });
     }
 
     /**
@@ -23,6 +74,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 }
