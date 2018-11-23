@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Administrador;
+use App\Rol;
 use App\Asignacion;
 use App\Inscripcion;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
             
             if (Auth::User()) {
                 if(Auth::User()->idtipousuario==2){
-                    $auth = Administrador::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
+                    $auth = Rol::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
                     if (!$auth) {
                         $auth = new \stdClass;
                         $auth->admin = 0;
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
                     $view->with("mainmenu", $auth);
                 }
                 if(Auth::User()->idtipousuario==3){
-                    $auth = Administrador::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
+                    $auth = Rol::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
                     if (!$auth) {
                         $auth = new \stdClass;
                         $auth->admin = 0;
@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
                     $view->with("mainmenu", $auth)->with('mnuasignaturas', $asignaciones);
                 }
                 if(Auth::User()->idtipousuario==4){
-                    $auth = Administrador::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
+                    $auth = Rol::where('idusuario', Auth::User()->idusuario)->where('idinstitucion', Auth::User()->idinstitucion)->first();
                     if (!$auth) {
                         $auth = new \stdClass;
                         $auth->admin = 0;

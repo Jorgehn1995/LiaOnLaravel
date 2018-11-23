@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UsuarioRequest;
-use App\Http\Requests\ProfesoresRequest;
-
 use App\TipoUsuario;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laracasts\Flash\Flash;
+
 class ProfesoresController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $idinstitucion = Auth::User()->idinstitucion;
-        $usuarios = User::where('idinstitucion', '=', "$idinstitucion")
-        ->where('idtipousuario', '=', "3")
-        ->orderBy('idusuario', 'DESC')->paginate(10);
+        $usuarios      = User::where('idinstitucion', '=', "$idinstitucion")
+            ->where('idtipousuario', '=', "3")
+            ->orderBy('idusuario', 'DESC')->paginate(10);
         $usuarios->each(function ($usuarios) {
             $usuarios->tipo;
         });
@@ -28,15 +27,37 @@ class ProfesoresController extends Controller
         $tipousuario = TipoUsuario::all();
         return view('admin.profesores.nuevo')->with('tipousuario', $tipousuario);
     }
-    public function store(ProfesoresRequest $request)
+    public function store(Request $request)
     {
-        $idinstitucion = Auth::User()->idinstitucion;
-        $usuario = new User($request->all());
-        $usuario->password = bcrypt($request->password);
-        $usuario->idtipousuario=3;
-        $usuario->idinstitucion=$idinstitucion;
+        $rules = [
+            'correo'   => 'required |unique:usuarios,usuario|unique:usuarios,correo',
+            'nombre'   => 'required', //'required|unique:posts|max:255|min:5|email'
+            'apellido' => 'required',
+        ];
+        $messages = [
+            'correo.unique' => 'El correo ya se encuentra registrado',
+            'pass.required' => 'Debes agregar una contraseña para tu cuenta',
+        ];
+        $this->validate($request, $rules, $messages);
+        $password               = uniqid;
+        $usuario                = new User();
+        $usuario->usuario       = $request->correo;
+        $usuario->correo        = $request->correo;
+        $usuario->nombre        = $request->nombre;
+        $usuario->apellido      = $request->apellido;
+        $usuario->codigo        = $password;
+        $usuario->password      = bcrypt($password);
+        $usuario->idinstitucion = Auth::User()->idinstitucion;
+        $usuario->idtipousuario = 3;
         $usuario->save();
-        Flash::success("El profesor " . $usuario->nombre . " " . $usuario->apellido . " ha sido registrado exitosamente")->important();
+
+        $rol                = new Rol();
+        $rol->idusuario     = $usuario->idusuario;
+        $rol->idinstitucion = Auth::User()->idinstitucion;
+        $rol->rol           = 3;
+        $rol->save();
+
+        Flash::success("El profesor " . $usuario->nombre . " " . $usuario->apellido . " ha sido registrado exitosamente, la contraseña de acceso es $password")->important();
         return redirect()->route('profesores.index');
     }
     public function destroy($id)
@@ -54,7 +75,8 @@ class ProfesoresController extends Controller
         flash("El usuario " . $usuario->nombre . " " . $usuario->apellido . " ha sido borrado de forma exitosa")->error()->important();
         return redirect()->route('profesores.index');
     }
-    public function edit($id){
+    public function edit($id)
+    {
         $usuario = User::find($id);
         if (!$usuario) {
             flash("Error, el elemento a editar no se encuentra")->error()->important();
@@ -66,11 +88,12 @@ class ProfesoresController extends Controller
         }
         return view('admin.profesores.editar')->with('usuario', $usuario);
     }
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
-            'nombre'=>'min:3|max:120|required',  //'required|unique:posts|max:255|min:5|email'
-            'apellido'=>'min:4|max:120|required',
-            'genero'=>'max:1|required',
+            'nombre'   => 'min:3|max:120|required', //'required|unique:posts|max:255|min:5|email'
+            'apellido' => 'min:4|max:120|required',
+            'genero'   => 'max:1|required',
         ]);
         $usuario = User::findOrFail($id);
         if (!$usuario) {
@@ -81,20 +104,21 @@ class ProfesoresController extends Controller
             flash("No tienes autorizacion para editar este usuario")->error()->important();
             return redirect()->route('profesores.index');
         }
-        $usuario->nombre = $request->nombre;
-        $usuario->apellido = $request->apellido;
-        $usuario->genero = $request->genero;
+        $usuario->nombre     = $request->nombre;
+        $usuario->apellido   = $request->apellido;
+        $usuario->genero     = $request->genero;
         $usuario->nacimiento = $request->nacimiento;
-        $usuario->direccion = $request->direccion;
-        $usuario->telefono = $request->telefono;
-        $usuario->correo = $request->correo;
-        $usuario->usuario = $request->usuario;
+        $usuario->direccion  = $request->direccion;
+        $usuario->telefono   = $request->telefono;
+        $usuario->correo     = $request->correo;
+        $usuario->usuario    = $request->usuario;
         $usuario->save();
         flash("El usuario " . $usuario->nombre . " " . $usuario->apellido . " ha sido modificado de forma exitosa")->success()->important();
         return redirect()->route('profesores.index');
 
     }
-    public function show($id){
+    public function show($id)
+    {
         $usuario = User::find($id);
         if (!$usuario) {
             flash("Error, el elemento a editar no se encuentra")->error()->important();

@@ -7,11 +7,8 @@
 </div>
 <div class="col-md-12">
 
-    <div class="card-box">
-        <h4>@yield('title')</h4>
-
-        <hr>
-        <table class="table table-hover">
+    <div class="">
+        <table class="table table-hover table-sm">
             <thead>
                 <tr>
                     <td>ID</td>
@@ -23,7 +20,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @forelse($usuarios as $usuario)
                 <tr>
                     <td>{{$usuario->idusuario}}</td>
@@ -31,7 +27,6 @@
                     <td>{{$usuario->apellido}}</td>
                     <td>
                         <span class="badge badge-{{$usuario->tipo->color}}"> {{$usuario->tipo->tipo}}</span>
-
                     </td>
                     <td>{{$usuario->usuario}}</td>
                     <td>
@@ -47,7 +42,9 @@
                 </tr>
                 @empty
                 <tr>
-                    <td class="text-center" colspan="6"><p>No existen profesores registrados</p></td>
+                    <td class="text-center" colspan="6">
+                        <p>No existen profesores registrados</p>
+                    </td>
                 </tr>
                 @endforelse
             </tbody>

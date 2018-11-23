@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 
+
 class UsuariosController extends Controller
 {
     //

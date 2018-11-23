@@ -21,10 +21,8 @@ Route::get('/', 'LoginController@check')->name('logincheck');
 /**
  * Rutas para registrarse
  */
-Route::get('/registrar',function(){
-    return view('register');
-})->name('register.index');
-Route::post('/registrar','InstitucionesController@store')->name('registrar.store');
+Route::get('/registrar', 'RegistroController@index')->name('registrar.index');
+Route::post('/registrar','RegistroController@store')->name('registrar.store');
 
 
 

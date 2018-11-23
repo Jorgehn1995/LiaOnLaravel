@@ -32,7 +32,7 @@
   <link type="text/css" href="{{asset('collegetheme/assets/css/offcanvas.css')}}" rel="stylesheet">
   <link type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.28/dist/sweetalert2.css" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('collegetheme/assets/css/cropper.css')}}">
- 
+
 
 
 
@@ -129,7 +129,7 @@
 
               <div class="dropdown-menu dropdown-menu-sm">
                 <div class="dropdown-menu-inner">
-                  @foreach(Auth::User()->administradores as $admin)
+                  @foreach(Auth::User()->roles as $admin)
                   <a href="https://demos.creative-tim.com/argon-design-system/docs/getting-started/overview.html'" class="media d-flex align-items-center">
                     <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
                       @if ($admin->logo=="")
@@ -268,7 +268,9 @@
     // Add active class to target link
     target.addClass('active');
   </script>
-  <script src="{{asset('collegetheme/assets/js/cropper.js')}}"> </script>
+  <script src="{{asset('collegetheme/assets/js/cropper.js')}}">
+
+  </script>
   @yield('js')
 </body>
 @yield('modals')

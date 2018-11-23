@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\TipoUsuario;
 use App\User;
 use App\Institucion;
+use App\Rol;
 use App\Administrador;
 use Laracasts\Flash\Flash;
 use Illuminate\Http\Request;
