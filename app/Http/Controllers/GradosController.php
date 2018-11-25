@@ -34,7 +34,7 @@ class GradosController extends Controller
             'idnivel'=>'required',
         ]);
         $item = new Grado($request->all());
-
+        $item->idinstitucion=Auth::User()->idinstitucion;
         $item->save();
         Flash::success("El grado " . $item->grado . " se ha creado exitosamente")->important();;
         return redirect()->route('grados.index');

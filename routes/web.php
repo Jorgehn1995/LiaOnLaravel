@@ -40,10 +40,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/ajustes',function(){
         return view('admin.ajustes.index');
     })->name('ajustes.index');
+
+    Route::resource('profesores', 'ProfesoresController');
+    Route::get('profesores/password/{id}','ProfesoresController@pass')->name('profesores.password');
+
     Route::resource('niveles', 'NivelesController');
     Route::resource('grados', 'GradosController');
     Route::resource('secciones', 'SeccionesController');
-    Route::resource('profesores', 'ProfesoresController');
+    
     Route::resource('asesores', 'AsesoresController');
     Route::resource('cuadros', 'CuadrosController');
     Route::resource('modelos', 'ModelosController');

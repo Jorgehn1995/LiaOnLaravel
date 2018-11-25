@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="col-md-12 m-b-15">
-<button type="button" onclick="location.href='{{route('profesores.index')}}'" class="btn btn-secondary"><i class="ti-arrow-left"></i> Regresar</button>
-<button type="button" onclick="location.href='{{ route('profesores.edit', $usuario->idusuario) }}'" class="btn btn-warning"><i class="ti-pencil"></i> Editar</button>
+    <button type="button" onclick="location.href='{{route('profesores.index')}}'" class="btn btn-secondary"><i class="ti-arrow-left"></i> Regresar</button>
+    <button type="button" onclick="location.href='{{ route('profesores.edit', $usuario->idusuario) }}'" class="btn btn-warning"><i class="ti-pencil"></i> Editar</button>
 </div>
 <div class="col-md-12">
     @if(count($errors)>0)
@@ -25,8 +25,7 @@
         <div class="row">
             <div class="col-md-12">
                 <form method="POST" action="{{route('usuarios.update',$usuario->idusuario)}}">
-                    @csrf
-                    {{ method_field('PUT') }}
+                    @csrf {{ method_field('PUT') }}
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -92,10 +91,15 @@
                                 <input disabled type="text" required class="form-control" value="{{$usuario->usuario}}" name="usuario">
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="usuario" class="control-label">Codigo de Acceso</label>
+                                <input disabled type="text" required class="form-control" value="{{$usuario->codigo}}" name="usuario">
+                            </div>
+                        </div>
 
-                        
                     </div>
-                    
+
                 </form>
             </div>
         </div>
