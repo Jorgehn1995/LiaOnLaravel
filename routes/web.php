@@ -33,29 +33,43 @@ Route::group(['prefix'=>'master','middleware'=>'auth'],function(){
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     
+    /**
+     * RUTAS PRINCIPALES
+     */
     Route::get('/',function(){
-        
         return view('admin.index');
     })->name('admin.index');
     Route::get('/ajustes',function(){
         return view('admin.ajustes.index');
     })->name('ajustes.index');
 
+    /**
+     * RUTAS PROFESORES
+     */
     Route::resource('profesores', 'ProfesoresController');
     Route::get('profesores/password/{id}','ProfesoresController@pass')->name('profesores.password');
 
-    Route::resource('niveles', 'NivelesController');
+    /**
+     * RUTAS GRADOS
+     */
     Route::resource('grados', 'GradosController');
-    Route::resource('secciones', 'SeccionesController');
     
-    Route::resource('asesores', 'AsesoresController');
+    /**
+     * RUTAS ASIGNATURAS
+     */
+    Route::get('asignaturas/{idgrado}', 'AsignaturasController@index')->name("asignaturas.index");
+    Route::post('asignaturas/{idgrado}','AsignaturasController@store')->name("asignaturas.store");
+    Route::delete('asignaturas/{idasignatura}','AsignaturasController@destroy')->name("asignaturas.destroy");
+    Route::get('asignaturas/edit/{idasignatura}','AsignaturasController@edit')->name("asignaturas.edit");
+    Route::put('asignaturas/edit/{idasignatura}', 'AsignaturasController@update')->name("asignaturas.update");
+
+
+
+
     Route::resource('cuadros', 'CuadrosController');
-    Route::resource('modelos', 'ModelosController');
-    Route::get('modelos/create/{idnivel}', 'ModelosController@create');
-    Route::resource('asignaturas', 'AsignaturasController');
-    Route::get('asignaturas/create/{idgrado}', 'AsignaturasController@create');
-    Route::resource('asignaciones', 'AsignacionesController');
-    Route::get('asignaciones/create/{idgrado}', 'AsignacionesController@create');
+    
+    
+    
     Route::resource('horarios', 'HorariosController');
     Route::resource('alumnos', 'AlumnosController');
     Route::get('alumnos/inscripcion/{idalumno?}', 'AlumnosController@inscripcion')->name('alumnos.inscripcion');

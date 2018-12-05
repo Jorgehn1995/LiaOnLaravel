@@ -27,6 +27,9 @@
   <link href="{{asset('collegetheme/assets/vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
   <!-- Argon CSS -->
   <link href="{{asset('theme 2/css/icons.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('theme 2/plugins/switchery/switchery.min.css')}}" rel="stylesheet" type="text/css" />
+
+
   <link type="text/css" href="{{asset('collegetheme/assets/css/style.css')}}" rel="stylesheet">
   <link type="text/css" href="{{asset('collegetheme/assets/css/argon.css')}}" rel="stylesheet">
   <link type="text/css" href="{{asset('collegetheme/assets/css/offcanvas.css')}}" rel="stylesheet">
@@ -236,10 +239,12 @@
   <script src="{{asset('collegetheme/assets/vendor/onscreen/onscreen.min.js')}}"></script>
   <script src="{{asset('collegetheme/assets/vendor/nouislider/js/nouislider.min.js')}}"></script>
   <script src="{{asset('collegetheme/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-
+  <script src="{{asset('theme 2/plugins/switchery/switchery.min.js')}}"></script>
   <!-- Notification js -->
   <script src="{{asset('theme 2/plugins/notifyjs/dist/notify.min.js')}}"></script>
   <script src="{{asset('theme 2/plugins/notifications/notify-metro.js')}}"></script>
+
+
 
 
   <!-- Argon JS -->

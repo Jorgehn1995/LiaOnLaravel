@@ -5,6 +5,7 @@
         <a class="nav-link" href="#">Reportes *</a>
         <a class="nav-link" href="#">Herramientas *</a>
         <a class="nav-link" href="{{route('profesores.index')}}">Profesores</a>
+        <a class="nav-link" href="{{route('grados.index')}}">Grados</a>
         <a class="nav-link" href="{{route('ajustes.index')}}">Ajustes</a>
     </nav>
 </div>

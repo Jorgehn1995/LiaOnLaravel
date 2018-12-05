@@ -24,10 +24,10 @@ class AsignacionesController extends Controller
     }
     public function index()
     {
-        $items = Nivel::with("grados.asignaturas.asignaciones.profesor")->where('idinstitucion', "=", Auth::User()->idinstitucion)
+        $items = Grado::where("idinstitucion",Auth::User()->idinstitucion)
             ->paginate(10);
         //dd($items);
-        return view('admin.asignaciones.index')->with('niveles', $items);
+        return view('admin.asignaciones.index')->with('grados', $items);
     }
     public function create($idgrado = 0)
     {

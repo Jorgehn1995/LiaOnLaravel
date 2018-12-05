@@ -30,7 +30,7 @@ class ProfesoresController extends Controller
             ->where('rol', '=', "3")
             
             ->orderBy('idusuario', 'DESC')->paginate(10);
-
+        
         return view('admin.profesores.index')->with('profesores', $profesores);
     }
     public function create()
