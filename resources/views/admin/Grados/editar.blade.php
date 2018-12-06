@@ -42,27 +42,15 @@
                             <div class="form-group">
                                 <label for="nivel" class="control-label">Nivel</label>
                                 <select name="nivel" required id="" class="form-control">
-                                                        <option value="">Seleccionar Nivel Educativo</option>
-                                                        @if($grado->idnivel=="0")
-                                                        <option selected value="0">Pre-Primario / Preescolar</option>@else
-                                                        <option value="0">Pre-Primario</option>@endif
-                    
-                                                        @if($grado->idnivel=="1")
-                                                        <option selected value="1">Primaria</option>@else
-                                                        <option value="1">Primaria</option>@endif
-                    
-                                                        @if($grado->idnivel=="2")
-                                                        <option selected value="2">Básico / Secundaria</option>@else
-                                                        <option value="2">Básico / Secundaria</option>@endif
-                    
-                                                        @if($grado->idnivel=="3")
-                                                        <option selected value="3">Diversificado / Preparatoria</option>@else
-                                                        <option value="3">Diversificado / Preparatoria</option>@endif
-                    
-                                                        @if($grado->idnivel=="4")
-                                                        <option selected value="4">Curso</option>@else
-                                                        <option value="4">Curso</option>@endif
-                                                    </select>
+                                    <option value="">Seleccionar Nivel Educativo</option>
+                                    @foreach ($niveles as $nivel) 
+                                    @if($grado->idnivel==$loop->index+1)
+                                    <option selected value="{{$loop->index+1}}">{{$nivel}}</option>
+                                    @else
+                                    <option value="{{$loop->index+1}}">{{$nivel}}</option>
+                                    @endif 
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">

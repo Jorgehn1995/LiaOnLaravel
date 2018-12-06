@@ -32,8 +32,7 @@
                     <td>{{$grado->asesor->usuario->nombre}} {{$grado->asesor->usuario->apellido}}</td>
                     <td>
                         <div class="btn-group text-center">
-                            <button type="button" onclick="location.href='{{ route('asignaturas.index', $grado->idgrado) }}'" title="Editar Materias"
-                                class="btn btn-warning"><i class="ti-pencil"></i></button>
+                            <button type="button" onclick="location.href='{{ route('asignaturas.index', $grado->idgrado) }}'" title="Ver Materias" class="btn btn-info"><i class="ti-eye"></i></button>
                         </div>
                     </td>
                     <td>
@@ -51,7 +50,7 @@
                 </tr>
 
                 @empty
-                <td colspan="5">
+                <td colspan="7">
                     <div class="text-center">No existen grados registrados</div>
                 </td>
 

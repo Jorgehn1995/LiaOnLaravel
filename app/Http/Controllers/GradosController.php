@@ -11,6 +11,7 @@ use Laracasts\Flash\Flash;
 
 class GradosController extends Controller
 {
+    protected $niveles=array("Pre-Primaria - Etapa 4","Pre-Primaria - Etapa 5","Pre-Primaria - Etapa 6","Nivel Primario - Primero","Nivel Primario - Segundo","Nivel Primario - Tercero","Nivel Primario - Cuarto","Nivel Primario - Quinto","Nivel Primario - Sexto","Ciclo Básico - Primero","Ciclo Básico - Segundo","Ciclo Básico - Tercero","Ciclo Diversificado - Cuarto","Ciclo Diversificado - Quinto","Ciclo Diversificado - Sexto","Curso","Otro");
     public function index()
     {
         $idinstitucion = Auth::User()->idinstitucion;
@@ -20,7 +21,7 @@ class GradosController extends Controller
     public function create()
     {
         $profesores=Rol::where('idinstitucion',Auth::User()->idinstitucion)->where('rol',3)->get();
-        return view('admin.grados.nuevo')->with('profesores',$profesores);
+        return view('admin.grados.nuevo')->with('profesores',$profesores)->with('niveles',$this->niveles);
     }
     public function store(Request $request)
     {
@@ -42,11 +43,11 @@ class GradosController extends Controller
             'seccion.required' => 'La seccion es requerida',
         ];
         $this->validate($request, $rules, $messages);
-        $niveles             = ['Pre-Primario', 'Primario', 'Básico / Secundaria', 'Diversificado / Preparatoria'];
+        $niveles             = $this->niveles;
         $item                = new Grado($request->all());
         $item->nombre        = $request->grado;
         $item->idnivel       = $request->nivel;
-        $item->nivel         = $niveles[$request->nivel];
+        $item->nivel         = $niveles[$request->nivel-1];
         $item->idinstitucion = Auth::User()->idinstitucion;
         //dd($item);
         $item->save();
@@ -82,7 +83,7 @@ class GradosController extends Controller
             flash("No tienes autorizacion para editar este elemento")->error()->important();
             return redirect()->route('grados.index');
         }
-        return view('admin.grados.editar')->with('grado', $item)->with('profesores',$profesores);
+        return view('admin.grados.editar')->with('grado', $item)->with('profesores',$profesores)->with('niveles',$this->niveles);
     }
     public function update(Request $request, $id)
     {
@@ -103,7 +104,7 @@ class GradosController extends Controller
             'seccion.required' => 'La seccion es requerida',
         ];
         $this->validate($request, $rules, $messages);
-        $niveles = ['Pre-Primario', 'Primario', 'Básico / Secundaria', 'Diversificado / Preparatoria'];
+        $niveles = $this->niveles;
         $item    = Grado::where('idgrado', '=', "$id")->first();
         if (!$item) {
             flash("Error, el elemento a editar no se encuentra")->error()->important();
@@ -116,7 +117,7 @@ class GradosController extends Controller
         $item->orden=$request->orden;
         $item->grado = $request->grado;
         $item->idnivel = $request->nivel;
-        $item->nivel = $niveles[$request->nivel];
+        $item->nivel = $niveles[$request->nivel-1];
         $item->idrol=$request->idrol;
         $item->nombre  = $request->grado;
         $item->corto=$request->corto;
