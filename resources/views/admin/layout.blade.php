@@ -35,7 +35,7 @@
   <link type="text/css" href="{{asset('collegetheme/assets/css/offcanvas.css')}}" rel="stylesheet">
   <link type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.28/dist/sweetalert2.css" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('collegetheme/assets/css/cropper.css')}}">
-
+  <link rel="stylesheet" href="{{asset('theme 2/plugins/jquery-ui/jquery-ui.css')}}">
 
 
 
@@ -240,9 +240,10 @@
   <script src="{{asset('collegetheme/assets/vendor/nouislider/js/nouislider.min.js')}}"></script>
   <script src="{{asset('collegetheme/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
   <script src="{{asset('theme 2/plugins/switchery/switchery.min.js')}}"></script>
+  <script src="{{asset('theme 2/plugins/switchery/switchery.min.js')}}"></script>
   <!-- Notification js -->
   <script src="{{asset('theme 2/plugins/notifyjs/dist/notify.min.js')}}"></script>
-  <script src="{{asset('theme 2/plugins/notifications/notify-metro.js')}}"></script>
+  <script src="{{asset('theme 2/plugins/jquery-ui/jquery-ui.js')}}"></script>
 
 
 

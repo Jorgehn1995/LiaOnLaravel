@@ -65,9 +65,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 
 
-
+    /**
+     * RUTAS PARA CUADROS
+     */
     Route::resource('cuadros', 'CuadrosController');
-    
+    Route::post('cuadros/ordenar','CuadrosController@ordenar')->name('cuadros.ordenar'); //se envian los datos por post, se ordenan y se cuardan
     
     
     Route::resource('horarios', 'HorariosController');

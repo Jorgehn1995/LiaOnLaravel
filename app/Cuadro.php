@@ -6,15 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cuadro extends Model
 {
-    protected $table = "cuadros";
-    protected $primaryKey ="idcuadro";
-    protected $fillable = ['nombre','descripcion','ponderacion','autoagregar','idnivel','orden'];
-    public $timestamps = false;
-    public function nivel(){
-        return $this->belongsTo('App\Nivel','idnivel');
+    protected $table      = "cuadros";
+    protected $primaryKey = "idcuadro";
+    protected $fillable   = ['nombre', 'descripcion', 'punteo', 'orden', 'renombrar', 'asesor', 'actividad', 'idinstitucion', 'idsaber', 'saber'];
+    public $timestamps    = false;
+    public function actividades()
+    {
+        return $this->hasMany('App\Actividad', 'idcuadro')->orderBy('orden');
     }
-    public function modelos(){
-        return $this->hasMany('App\Modelo','idcuadro')->orderBy('orden');
-    }
-    
 }
