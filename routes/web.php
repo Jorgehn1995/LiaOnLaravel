@@ -63,15 +63,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('asignaturas/edit/{idasignatura}','AsignaturasController@edit')->name("asignaturas.edit");
     Route::put('asignaturas/edit/{idasignatura}', 'AsignaturasController@update')->name("asignaturas.update");
 
-
-
     /**
      * RUTAS PARA CUADROS
      */
     Route::resource('cuadros', 'CuadrosController');
     Route::post('cuadros/ordenar','CuadrosController@ordenar')->name('cuadros.ordenar'); //se envian los datos por post, se ordenan y se cuardan
     
-    
+    /**
+     * RUTAS PARA BLOQUES
+     */
+    Route::resource('bloques','BloquesController');
+    Route::post('bloques/estado','BloquesController@mostrar')->name('bloques.mostrar');
+
+
+
     Route::resource('horarios', 'HorariosController');
     Route::resource('alumnos', 'AlumnosController');
     Route::get('alumnos/inscripcion/{idalumno?}', 'AlumnosController@inscripcion')->name('alumnos.inscripcion');
