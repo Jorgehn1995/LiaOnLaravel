@@ -59,7 +59,7 @@
       font-size: 2em;
     }
   </style>
-
+  @yield('css')
 </head>
 
 <body>
@@ -254,9 +254,9 @@
 
   <script src="{{asset('collegetheme/assets/js/argon.js?v=1.0.0')}}"></script>
   <script src="https://getbootstrap.com/docs/4.1/examples/offcanvas/offcanvas.js"></script>
-  <script src="{{asset('theme 2/js/funciones.js')}}"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.28/dist/sweetalert2.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
   <script>
     // Get current path and find target link
     /**

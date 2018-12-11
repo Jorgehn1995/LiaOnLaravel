@@ -1,43 +1,46 @@
 @extends('admin.layout') 
 @section('title', "Alumnos Inscritos") 
+@section('css')
+<style>
+	.autocomplete {
+		/*the container must be positioned relative:*/
+		position: relative;
+		display: inline-block;
+	}
 
+	.autocomplete-items {
+		position: absolute;
+		border: 1px solid #d4d4d4;
+		border-bottom: none;
+
+		z-index: 99;
+		/*position the autocomplete items to be the same width as the container:*/
+		left: 0;
+		right: 0;
+	}
+
+	.autocomplete-items div {
+		padding: 10px;
+		cursor: pointer;
+		background-color: #fff;
+		border-bottom: 1px solid #d4d4d4;
+	}
+
+	.autocomplete-items div:hover {
+		/*when hovering an item:*/
+		background-color: #e9e9e9;
+	}
+
+	.autocomplete-active {
+		/*when navigating through the items using the arrow keys:*/
+		background-color: DodgerBlue !important;
+		color: #ffffff;
+	}
+</style>
+@endsection
  
 @section('content')
-<div class="col-md-4">
-	<div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
-		<div class="modal-dialog modal-success modal-dialog-centered modal-" role="document">
-			<div class="modal-content bg-gradient-success">
 
-				<div class="modal-header">
-					<h6 class="modal-title" id="modal-title-notification">Agregar Alumno</h6>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-				</div>
-
-				<div class="modal-body">
-					<div class="py-3 text-center">
-						<i class="ni ni-hat-3 ni-3x"></i>
-						<p>Para agregar un nuevo alumno debes proporcionar el codigo</p>
-						<p><strong>NOTA: </strong> <small>Revisa que el código este correctamente escrito</small></p>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<input type="text" class="form-control " id="codigonuevo" data-showroute="{{route('jsonConsultaCodigo')}}" placeholder="Codigo Estudiantil">
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-white" id="btn-bgeneral">Continuar</button>
-
-				</div>
-
-			</div>
-		</div>
-	</div>
-</div>
 <div class="col-md-12">
 	@if(count($errors)>0)
 	<div class="alert alert-danger alert-dismissable">
@@ -46,7 +49,125 @@
 		@endforeach
 	</div>
 	@endif
-	@include('admin.alumnos.seccionadd')
+	<div id="sbox" class="m-b-20" style="display:none;">
+		<form role="form" id="inscripcionform" method="POST" action="{{route('alumnos.store')}}">
+			<div id="info" class="card-body">
+				<div class="col-md-12">
+					<p class="text-muted">Información del Alumno</p>
+					<hr>
+				</div>
+				<div class="row">
+					@csrf
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="codigo" class="control-label">Codigo <span class="text-danger">*</span></label>
+								<input type="text" class="form-control" autocomplete="off" required name="codigo" id="codigo" value="{{old('codigo')}}">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="nombre" class="control-label">Nombre <span class="text-danger">*</span></label>
+								<input type="text" required id="nombre" class="form-control" name="nombre" value="{{old('nombre')}}">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="apellido" class="control-label">Apellido <span class="text-danger">*</span></label>
+								<input type="text" required class="form-control" name="apellido" value="{{old('apellido')}}">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="genero" class="control-label">Genero <span class="text-danger">*</span></label>
+								<select name="genero" class="form-control" required>
+	                                <option value="">Selecione un Genero</option>
+	                                <option value="m">Masculino</option>
+	                                <option value="f">Femenino</option>
+	                            </select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="nacimiento" class="control-label">Nacimiento <span class="text-danger">*</span></label>
+								<input type="date" required name="nacimiento" class="form-control" value="{{old('nacimiento')}}" id="">
+							</div>
+						</div>
+						<div class="col-md-4 hide-b">
+							<div class="form-group">
+								<label for="telefono" class="control-label">Telefono</label>
+								<input type="text" disabled name="telefono" class="form-control" value="{{old('telefono')}}" id="">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="direccion" class="control-label">Dirección</label>
+								<input type="text" name="direccion" class="form-control" value="{{old('direccion')}}" id="">
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="card-box">
+				<div class="row">
+					<div class="col-md-12">
+						<h6>Información de Inscripción</h6>
+						<hr>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="encargado" class="control-label">Ciclo Escolar</label>
+									<input type="text" required class="form-control" readonly name="ciclo" value="{{Auth::User()->institucion->ciclo}}">
+								</div>
+							</div>
+
+							<div class="col-md-9">
+								<div class="form-group">
+									<label for="encargado" class="control-label">Grado</label>
+									<select name="idgrado" required data-route="{{route('jsonGrados')}}" id="selectGrados" class="form-control">
+	                          			<option value="">Seleccione un grado</option>
+	                        		</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="encargado" class="control-label">Encargado</label>
+									<input type="text" class="form-control" name="encargado" value="{{old('encargado')}}">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="telencargado" class="control-label">Telefono Encargado</label>
+									<input type="text" class="form-control" name="telencargado" value="{{old('telencargado')}}">
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="otro" class="control-label">Otros Datos</label>
+									<input type="text" name="otro" class="form-control" value="{{old('otro')}}" id="">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<button type="button" id="regresar" class="btn btn-dark"><i class=" ti-angle-left"></i> Cancelar</button>
+									<button type="submit" class="btn btn-success btn-save" id=""><i class="ti-save"></i> Inscribir Alumno</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
 
 
 	<!--seccion de alumnos agregados-->
@@ -55,9 +176,8 @@
 			<div class="input-group">
 				<input type="text" autocomplete="off" id="busqueda" class="form-control " placeholder="Buscar por Nombre, Apellido, Codigo, Edad">
 				<div class="input-group-append">
-					<button class="btn btn-default " onclick=" btnreload();"><i class="ti-reload"></i> </button>
+					<button class="btn btn-default btn-reload" onclick=""><i class="ti-reload"></i> </button>
 					<button class="btn btn-success hide-b " id="add"><i class="ti-plus"></i> </button>
-
 				</div>
 			</div>
 		</div>
@@ -75,56 +195,48 @@
 	</div>
 
 </div>
-<button class="btn btn-success btn-circle  float-btn" data-toggle="modal" data-target="#modal-notification" type="button"><span class="btn-inner--icon"><i class="ti ti-plus"></i></span></button>
-<input type="hidden" id="inscritos" value="{{route('jsonInscritos')}}">
-<input type="hidden" id="info" value="{{route('jsonConsultaCodigo')}}">
+<button class="btn btn-success btn-circle  float-btn" type="button"><span class="btn-inner--icon"><i class="ti ti-plus"></i></span></button>
+<input type="hidden" id="inscritos" value="{{route('alumnos.inscritos')}}">
+<input type="hidden" id="autocompletado" value="{{route('alumnos.autocompletado')}}">
+<input type="hidden" id="rutagrados" value="{{route('alumnos.grados')}}">
+<input type="hidden" id="datainscritos">
 @endsection
  
 @section('js')
-
+<script src="{{asset('js/alumnos.js')}}"></script>
 <script>
-	$("#btn-bgeneral").click(function() {
+	$(document).ready(function(){
+		$(".float-btn").click(function(){
+			$(".listalumnos").hide();
+			$("#sbox").show();
+		});
+		$("#regresar").click(function(){
+			$(".listalumnos").show();
+			$("#sbox").hide();
+			$('html, body').animate({
+                scrollTop: $("#info").offset().top - 90
+            }, 1000);
+		});
+		$(".btn-reload").click(function(){
+			cargaralumnos($("#inscritos").val()); //se cargan las tarjetas con la informacion de los alumnos	
+		});
+
+
+		cargaralumnos($("#inscritos").val()); //se cargan las tarjetas con la informacion de los alumnos
 		
-		consultarcodigo($('#codigonuevo'));
-	});
-	$("#regresar").click(function(){
-		$("#sbox").hide();
-		$(".listalumnos").show();
-		$('html, body').animate({
-			scrollTop: 0
-		}, 1000);
-	});
-	$("#registerform").on("submit", function(event) {
-		event.preventDefault();
-		registraralumno($(this));
-	});
-	$("#inscripcionform").on("submit", function(e) {
-		e.preventDefault();
-		//alert($(this).serialize());
-		inscribiralumno($(this));
-	});
-	$("#selectGrados").change(function() {
-		cargarseccion();
-	});
-	cargargrado();
+		datosautocompletado($("#autocompletado").val()); //se cargan los datos para el autocompletado
+		
+		grados($("[name='idgrado']"),$("#rutagrados").val()); //se cargan los grados en el select
+		
+		$("#inscripcionform").on("submit", function (event) {//se captura el submit del formulario y se dispara la funcion para guardar el alumno
+			event.preventDefault();
+			$(".btn-save").prop('disabled',true);
+    		registraralumno($(this));
+		});
 
-
-	var data;
-
-	function btnreload() {
-		consultarinscritos($("#inscritos").val());
-	}
-	btnreload();
-	$('#busqueda').keyup(function() {
-		alumnoslivesearch($(this).val());
-	});
-	$("#add").click(function() {
-		$("#sbox").show(500);
-		$(".listalumnos").hide(500);
-	});
-	$("#closeadd").click(function() {
-		$("#sbox").hide(500);
-		$(".listalumnos").show(500);
+		$('#busqueda').keyup(function () { //cada vez que el usuario presione una tecla se ejecutará el livesearch
+    		alumnoslivesearch($(this).val(),$("#datainscritos").val());
+		});
 	});
 
 </script>

@@ -1,29 +1,7 @@
 /**************
  Funciones Json para cargar select grado y seccion dinamicamente
 ***************/
-function cargargrado() {
-    var element = $("#selectGrados");
-    $.ajax({
-        //data: parametros,
-        url: element.data('route'),
-        type: 'GET',
-        beforeSend: function () {
-            //$(".loadicon").show(500);
-        },
-        success: function (response) {
-            //console.log(response);
-            var select = '<option value="">Selecione Un Grado</option>';
-            $.each(response, function (i, v) {
-                //alert( "Key: " + i + ", Value: " + v.idgrado );
-                select += '<option value="' + v.idgrado + '">' + v.grado + ' ' + v.corto + '</option>';
-            });
-            element.html(select);
-        },
-        error: function (data) {
 
-        }
-    });
-}
 function cargarseccion(idseccion = 0) {
     var element = $("#selectGrados");
     var elementSeccion = $("#selectSecciones");
@@ -174,35 +152,7 @@ function infoscroll() {
         scrollTop: $("#info").offset().top
     }, 1000);
 }
-function registraralumno(element) {
-    var form = element;
-    $.ajax({
-        //data: parametros,
-        url: form.attr('action'),
-        type: 'POST',
-        data: form.serialize(),
-        beforeSend: function () {
-            $(".loadicon").show(500);
-        },
-        success: function (response) {
-            $(".loadicon").hide(500);
-            if (response.message == "true") {
-                $("#modalregistro").modal('hide');
-                $("#busquedageneral").val(response['usuario']['codigo']);
-                consultarcodigo($("#busquedageneral"));
-                form.trigger("reset");
-                $('html, body').animate({
-                    scrollTop: $("#info").offset().top - 90
-                }, 1000);
-            }
-        },
-        error: function (data) {
-            var dat = data.responseJSON;
-            console.log(dat.errors);
-            // Render the errors with js ...
-        }
-    });
-}
+
 function inscribiralumno(element) {
     var form = element;
     var idusuario = $("#idusuario").val();
@@ -262,59 +212,8 @@ function resetinscripcion() {
         scrollTop: 0
     }, 1000);
 }
-function accentRemove(string) {
-    return string
-        .replace(/έ/g, 'ε')
-        .replace(/[ύϋΰ]/g, 'υ')
-        .replace(/ό/g, 'ο')
-        .replace(/ώ/g, 'ω')
-        .replace(/ά/g, 'α')
-        .replace(/[ίϊΐ]/g, 'ι')
-        .replace(/ή/g, 'η')
-        .replace(/\n/g, ' ')
-        .replace(/á/g, 'a')
-        .replace(/é/g, 'e')
-        .replace(/í/g, 'i')
-        .replace(/ó/g, 'o')
-        .replace(/ú/g, 'u')
-        .replace(/ê/g, 'e')
-        .replace(/î/g, 'i')
-        .replace(/ô/g, 'o')
-        .replace(/è/g, 'e')
-        .replace(/ï/g, 'i')
-        .replace(/ü/g, 'u')
-        .replace(/ã/g, 'a')
-        .replace(/õ/g, 'o')
-        .replace(/ç/g, 'c')
-        .replace(/ì/g, 'i');
-};
-function alumnocard(string) {
-    var val = string;
-    var acard = '';
-    acard += '<div class="col-md-4 m-b-20 m-t-10 acard " >';
-    acard += '<div class="card card-lift--hover shadow border-0">';
-    acard += '<div class="card-body py-5 widget-user">';
-    acard += '<div>';
-    acard += '<img src="' + val.foto + '" class="rounded-circle" alt="user">';
-    acard += ' <div class="wid-u-info">';
-    acard += '<h6 class="mt-0 m-b-5 font-11 text-uppercase">' + val.nombre + ' <br><small class="">' + val.apellido + '</small></h6>';
-    acard += '<p class="text-muted m-b-5 font-13">' + val.codigo + '</p>';
-    acard += '</div>';
-    acard += '</div>';
-    acard += '<p class="description mt-3">' + val.grado.grado + ' ' + val.nivel.corto + ' ' + val.seccion.letra + '</p>';
-    acard += '<div>';
 
-    acard += '<span class="badge badge-pill badge-primary">' + val.nacimiento + '</span>';
-    acard += '<span class="badge badge-pill badge-primary">' + val.edad + '</span>';
-    acard += '<span class="badge badge-pill badge-' + val.estado.color + '"> ' + val.estado.estado + '</span>';
-    acard += '</div>';
-    acard += '<a href="' + val.editroute + '" class="btn btn-warning btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Información" ><i class="ti-pencil"></i></a>';
-    acard += '<a href="#" class="btn btn-info btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Foto"><i class="ti-image"></i></a>';
-    acard += '</div>';
-    acard += '</div>';
-    acard += '</div>';
-    return acard;
-}
+
 function consultarinscritos(url) { //consulta el codigo y añade a los elementos <p> los datos recibidos
     $.ajax(url, {
         type: 'GET',
@@ -335,32 +234,7 @@ function consultarinscritos(url) { //consulta el codigo y añade a los elementos
         }
     });
 }
-function alumnoslivesearch(searchField) {
-    if (searchField === '') {
-        //console.log(data);
-        output = '';
-        $.each(data, function (key, val) {
-            output += alumnocard(val);
-        });
-        $('#searchbox').html(output);
-        return;
-    }
-    var regex = new RegExp(searchField, "i");
-    var output = '';
-    var count = 1;
-    //console.log(data);
-    $.each(data, function (key, val) {
-        fullname = accentRemove(val.fullname.toLowerCase());
-        codigo = accentRemove(val.codigo.toLowerCase());
-        if ((fullname.search(regex) != -1) || (codigo.search(regex) != -1) || (val.edad.search(regex) != -1)) { //campos en que se busca
-            output += alumnocard(val);
-        }
-    });
-    if (output == '') {
-        output = '<p class="text-muted text-center">Sin resultados</p>';
-    }
-    $('#searchbox').html(output);
-}
+
 function subirfotoperfil() {
     window.addEventListener('DOMContentLoaded', function () {
         var avatar = document.getElementById('avatar');

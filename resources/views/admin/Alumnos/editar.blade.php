@@ -19,7 +19,7 @@
         @csrf {{ method_field('PUT') }}
         <div class="row">
             <div class="col-md-12">
-                <div id="info" class="card-box">
+                <div id="info" class="">
                     <div class="row">
                         <div class="col-md-12">
                             <h6>Información del Alumno</h6>
@@ -52,17 +52,17 @@
                                     <div class="form-group">
                                         <label for="genero" class="control-label">Genero <span class="text-danger">*</span></label>
                                         <select name="genero" class="form-control" required id="">
-                                            @if($inscripcion->genero=="M")
-                                                <option selected value="M">Masculino</option>
-                                                <option value="F">Femenino</option>
+                                            @if($inscripcion->genero=="m")
+                                                <option selected value="m">Masculino</option>
+                                                <option value="f">Femenino</option>
                                             @else
-                                                @if($inscripcion->usuario->genero=='F')
-                                                    <option value="M">Masculino</option>
-                                                    <option selected value="F">Femenino</option>
+                                                @if($inscripcion->genero=='f')
+                                                    <option value="m">Masculino</option>
+                                                    <option selected value="f">Femenino</option>
                                                 @else
                                                     <option value="">Selecione un Genero</option>
-                                                    <option value="M">Masculino</option>
-                                                    <option value="F">Femenino</option>
+                                                    <option value="m">Masculino</option>
+                                                    <option value="f">Femenino</option>
                                                 @endif
                                             @endif
                                         </select>
@@ -83,18 +83,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="correo" class="control-label">Correo</label>
-                                        <input type="text" name="correo" class="form-control" value="{{$inscripcion->correo}}" id="">
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="direccion" class="control-label">Dirección</label>
-                                        <input type="text" name="direccion" class="form-control" value="{{$inscripcion->direccion}}" id="">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label for="idestado" class="control-label">Estado Actual (Activo/Retirado)</label>
                                         <select name="idestado" class="form-control" id="">
                                                 @if($inscripcion->idestado==1)
@@ -108,6 +96,13 @@
                                             </select>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="direccion" class="control-label">Dirección</label>
+                                        <input type="text" name="direccion" class="form-control" value="{{$inscripcion->direccion}}" id="">
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="row">
                                 <p><small>(<span class="text-danger">*</span>) Datos Obligatorios</small></p>
@@ -134,31 +129,21 @@
                                         <input type="text" disabled name="otro" class="form-control" value="{{$inscripcion->ciclo}}" id="">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="idgrado" class="control-label">Grado <span class="text-danger">*</span></label>
                                         <select name="idgrado" class="form-control" data-idseccion="{{$inscripcion->idseccion}}" required data-route="{{route('jsonGrados')}}"
                                             data-seccionroute="{{route('jsonSecciones')}}" id="selectGrados">
-                                                @forelse($niveles as $nivel)
-                                                    @foreach($nivel->grados as $grado)
-                                                        @if($grado->idgrado==$inscripcion->idgrado)
-                                                            <option selected value="{{$grado->idgrado}}">{{$grado->grado." ".$nivel->corto}}</option>
-                                                        @else
-                                                            <option value="{{$grado->idgrado}}">{{$grado->grado." ".$nivel->corto}}</option>
-                                                        @endif
-                                                     @endforeach
+                                                @forelse($grados as $grado)
+                                                    @if($grado->idgrado==$inscripcion->idgrado)
+                                                    <option selected value="{{$grado->idgrado}}">{{$grado->nombre." ".$grado->seccion}}</option>
+                                                    @else
+                                                    <option value="{{$grado->idgrado}}">{{$grado->nombre." ".$grado->seccion}}</option>
+                                                    @endif
                                                 @empty
-                                                    <option selected value="">No Existen Niveles Registrados</option>
+                                                    <option selected value="">No existen grados registrados</option>
                                                 @endforelse
                                             </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="encargado" class="control-label">Seccion</label>
-                                        <select name="idseccion" required id="selectSecciones" class="form-control">
-                                                            <option value="">Seleccione una sección</option>
-                                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -196,21 +181,22 @@
         </div>
     </form>
     <div class="col-md-4 ">
-            <form action="{{ route('alumnos.destroy',  $inscripcion->idinscripcion) }}" method="post"> {{ csrf_field() }} {{ method_field('delete') }}
-                <button class="btn btn-danger" title="Eliminar" onclick="return confirm('¿seguro que deseas eliminar la inscripcion del alumno {{$inscripcion->usuario->nombre." ".$inscripcion->usuario->apellido}}?')" type="submit"><i class="ti ti-trash"></i> Eliminar</button>
-            </form>
+        <form action="{{ route('alumnos.destroy',  $inscripcion->idinscripcion) }}" method="post"> {{ csrf_field() }} {{ method_field('delete') }}
+            <button class="btn btn-danger" title="Eliminar" onclick="return confirm('¿seguro que deseas eliminar la inscripcion del alumno {{$inscripcion->nombre."
+                ".$inscripcion->apellido}}?')" type="submit"><i class="ti ti-trash"></i> Eliminar</button>
+        </form>
 
-        </div>
+    </div>
 
 </div>
 @endsection
  
 @section('js')
 <script>
-    $("#selectGrados").change(function() {
-        cargarseccion();
-    });
-    cargarseccion($("#selectGrados").data("idseccion"));
+    //$("#selectGrados").change(function() {
+    //    cargarseccion();
+    //});
+    //cargarseccion($("#selectGrados").data("idseccion"));
 
 </script>
 @endsection

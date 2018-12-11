@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Autocompletado;
 use App\Grado;
-use App\Informacion;
 use App\Inscripcion;
-use App\Nivel;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,6 +13,30 @@ use Laracasts\Flash\Flash;
 
 class AlumnosController extends Controller
 {
+    public function inscritos()
+    {
+        $alumnos = Inscripcion::where('idinstitucion', Auth::User()->idinstitucion)->where('ciclo', Auth::User()->institucion->ciclo)->orderBy('idinscripcion', 'DESC')->get();
+        $alumnos->each(function ($alumnos) {
+            $alumnos->fullname = $alumnos->nombre . " " . $alumnos->apellido;
+            $alumnos->edad     = $this->edad($alumnos->nacimiento) . " años";
+            $alumnos->grado;
+            if (!$alumnos->foto) {
+                $alumnos->foto = asset('images/app/user.jpg');
+            }
+            $alumnos->editar = route('alumnos.edit', $alumnos->idinscripcion);
+        });
+        return $alumnos;
+    }
+    public function autocompletado()
+    {
+        $alumnos = Autocompletado::get();
+        return $alumnos;
+    }
+    public function grados()
+    {
+        $grados = Grado::where('idinstitucion', Auth::User()->idinstitucion)->orderBy('idnivel')->get();
+        return $grados;
+    }
     public function create()
     {
         return view('admin.alumnos.nuevo');
@@ -44,83 +67,61 @@ class AlumnosController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'codigo'     => 'unique:usuarios',
+            'codigo'     => 'required',
             'nombre'     => 'required', //'required|unique:posts|max:255|min:5|email'
             'apellido'   => 'required',
             'genero'     => 'required',
             'nacimiento' => 'required',
+            'ciclo'      => 'required',
+            'idgrado'    => 'required',
         ]);
-        //dd($request->all());
-        $item                = new User($request->all());
-        $item->usuario       = $request->codigo;
-        $ps                  = date("Y", strtotime($request->nacimiento));
-        $item->password      = bcrypt($ps);
-        $item->idtipousuario = 4;
-        $item->idinstitucion = Auth::User()->institucion->idinstitucion;
-        $item->codigo        = $request->codigo;
-        $item->save();
-        $usuario = $item;
-        //dd($usuario->idusuario);
-        $response = array(
-            "message" => "true",
-            "title"   => "Exito",
-            "body"    => "El usuario ha sido registrado exitosamente",
-            "usuario" => $item,
+        $username = $request->codigo;
+        $usr      = User::where('usuario', $username)->where('idinstitucion', Auth::User()->idinstitucion)->count();
+        if ($usr > 0) {
+            $username = $username . $request->ciclo;
+        }
 
-        );
+        $usr = Inscripcion::where('codigo', $request->codigo)->where('idinstitucion', Auth::User()->idinstitucion)->where('ciclo', $request->ciclo)->count();
+        if ($usr > 0) {
+            $response['status'] = false;
+            $response['title']  = "Alumno Existente";
+            $response['msg']    = "El codigo $request->codigo ya se encuentra inscrito para el ciclo $request->ciclo";
+            return $response;
+        }
+        /**
+         * Aqui se registra la inscripcion
+         */
+        $process                = new Inscripcion($request->all());
+        $process->contacto      = $request->telencargado;
+        $process->genero        = $request->genero;
+        $process->idestado      = 1;
+        $process->idinstitucion = Auth::User()->idinstitucion;
+        $process->registrador   = Auth::User()->idusuario;
+        $process->actualizador  = Auth::User()->idusuario;
+        $process->uniqid        = uniqid(Auth::User()->institucion->abr . "_");
+        $process->comentario    = $request->otro;
+        $process->save();
+
+        /**
+         * AQUI SE REGISTRA EL USUARIO
+         */
+        $usuario                = new User($request->all());
+        $usuario->usuario       = $username;
+        $ps                     = date("Y", strtotime($request->nacimiento));
+        $usuario->password      = bcrypt($ps);
+        $usuario->idtipousuario = 4;
+        $usuario->idinstitucion = Auth::User()->idinstitucion;
+        $usuario->codigo        = $request->codigo;
+        $usuario->idinscripcion = $process->idinscripcion;
+        $usuario->save();
+
+        $response['status']  = true;
+        $response['title']   = "Alumno Inscrito";
+        $response['msg']     = "Se inscribio a $request->nombre $request->apellido para el ciclo $request->ciclo";
+        $response['usuario'] = $usuario;
         return $response;
     }
-    public function inscripcion($id = 0)
-    {
-        if ($id == 0) {
-            return "false";
-        }
-        $usuario            = User::find($id);
-        $usuario->edad      = $this->edad($usuario->nacimiento);
-        $usuario->pass      = date("Y", strtotime($usuario->nacimiento));
-        $usuario->direccion = ($usuario->direccion == "") ? "No Registrada" : $usuario->direccion;
-        $usuario->generol   = ($usuario->genero == "M") ? "Masculino" : "Femenino";
-        $usuario->y         = date("Y");
-        /** se comprueba que no este inscrito en el establecimiento */
-        $ciclo       = date("Y");
-        $inscripcion = Inscripcion::where("idinstitucion", "=", Auth::User()->institucion->idinstitucion)->where("idusuario", "=", $usuario->idusuario)->where("ciclo", "=", $ciclo)->first();
-        if ($inscripcion) {
-            Flash::success("El alumno ya se encuentra registrado en el ciclo escolar $ciclo ")->important();
-            return redirect()->route('alumnos.comprobante', ['idinscripcion' => $inscripcion->idinscripcion]);
-            //return $this->comprobante($request->idusuario);
-        }
 
-        /** se reunen y buscan los grados */
-        $idinstitucion = Auth::User()->idinstitucion;
-        $grados        = Grado::join('niveles', 'grados.idnivel', '=', 'niveles.idnivel')
-            ->where('niveles.idinstitucion', '=', "$idinstitucion")
-            ->orderBy('niveles.idnivel', 'ASC')
-            ->orderBy('grados.orden', 'ASC')
-            ->paginate(10);
-        return view('admin.alumnos.inscripcion')->with("usuario", $usuario)->with("grados", $grados);
-    }
-    public function comprobante($id)
-    {
-        $comprobante = Inscripcion::find($id);
-        $usuario     = User::find($comprobante->usuario->idusuario);
-        if ($comprobante->idinstitucion != Auth::User()->idinstitucion) {
-            Flash::error("Error al procesar la solicitud ID de Institucion $id")->important();
-            return $this->index();
-        }
-        $usuario->edad      = $this->edad($usuario->nacimiento);
-        $usuario->pass      = date("Y", strtotime($usuario->nacimiento));
-        $usuario->direccion = ($usuario->direccion == "") ? "No Registrada" : $usuario->direccion;
-        $usuario->generol   = ($usuario->genero == "M") ? "Masculino" : "Femenino";
-        $usuario->y         = date("Y");
-        /** se reunen y buscan los grados */
-        $idinstitucion = Auth::User()->idinstitucion;
-        $grados        = Grado::join('niveles', 'grados.idnivel', '=', 'niveles.idnivel')
-            ->where('niveles.idinstitucion', '=', "$idinstitucion")
-            ->orderBy('niveles.idnivel', 'ASC')
-            ->orderBy('grados.orden', 'ASC')
-            ->paginate(10);
-        return view('admin.alumnos.comprobante')->with("inscripcion", $comprobante);
-    }
     public function edad($fecha)
     {
         list($ano, $mes, $dia) = explode("-", $fecha);
@@ -132,79 +133,34 @@ class AlumnosController extends Controller
         }
         return $ano_diferencia;
     }
-    public function inscribir(Request $request)
-    {
-        //dd($request->all());
-        $request->validate([
-            'idusuario' => 'required',
-            'idgrado'   => 'required', //'required|unique:posts|max:255|min:5|email'
-        ]);
-        $ciclo       = date("Y");
-        $inscripcion = Inscripcion::where("idinstitucion", "=", Auth::User()->institucion->idinstitucion)->where("idusuario", "=", $request->idusuario)->where("ciclo", "=", $ciclo)->first();
-        $user        = User::find($request->idusuario);
-        if ($inscripcion) {
-            $response = array(
-                "message" => "false",
-                "title"   => "Alumno Inscrito",
-                "body"    => "El alumno $inscripcion->nombre $inscripcion->apellido ya se encuentra inscrito en " . Auth::User()->institucion->abr . " para el ciclo escolar  $request->ciclo",
-                "type"    => "warning",
 
-            );
-            return $response;
-            //return $this->comprobante($request->idusuario);
-        } else {
-            $inscrip                = new Inscripcion($request->all());
-            $inscrip->ciclo         = $request->ciclo;
-            $inscrip->idusuario     = $request->idusuario;
-            $inscrip->idgrado       = $request->idgrado;
-            $inscrip->idseccion     = $request->idseccion;
-            $inscrip->encargado     = $request->encargado;
-            $inscrip->contacto      = $request->telencargado;
-            $inscrip->nombre        = $user->nombre;
-            $inscrip->apellido      = $user->apellido;
-            $inscrip->codigo        = $user->codigo;
-            $inscrip->registrador   = Auth::User()->idusuario;
-            $inscrip->idinstitucion = Auth::User()->institucion->idinstitucion;
-            $inscrip->idestado      = 1;
-            $inscrip->resultado     = 2;
-            $inscrip->save();
-            $response = array(
-                "message" => "true",
-                "title"   => "Exito",
-                "body"    => "El usuario ha sido inscrito exitosamente",
-                "type"    => "success",
-                "usuario" => $inscrip,
-
-            );
-            return $response;
-        }
-    }
     public function edit($id)
     {
-        $comprobante = Inscripcion::find($id);
+        $inscripcion = Inscripcion::find($id);
 
-        if ($comprobante->idinstitucion != Auth::User()->idinstitucion) {
+        if (!$inscripcion || $inscripcion->idinstitucion != Auth::User()->idinstitucion) {
             Flash::error("Error al procesar la solicitud ID de Institución $id")->important();
             return $this->index();
         }
-        $niveles = Nivel::where("idinstitucion", "=", Auth::User()->idinstitucion)->get();
-        if (!$niveles) {
+        $grados = Grado::where("idinstitucion", "=", Auth::User()->idinstitucion)->orderBy('idnivel', 'ASC')->orderBy('seccion', 'ASC')->get();
+        if (!$grados) {
             Flash::error("Error al procesar la solicitud: No existen Niveles Registrados")->important();
             return $this->index();
         }
         //dd($niveles);
-        return view('admin.alumnos.editar')->with("inscripcion", $comprobante)->with("niveles", $niveles);
+        return view('admin.alumnos.editar')->with("inscripcion", $inscripcion)->with("grados", $grados);
     }
     public function update(Request $request, $id)
     {
         //dd($request->all());
         $request->validate([
+            'codigo'     => 'required',
             'nombre'     => 'required', //'required|unique:posts|max:255|min:5|email'
             'apellido'   => 'required',
             'genero'     => 'required',
             'nacimiento' => 'required',
             'idgrado'    => 'required',
-            'idseccion'    => 'required',
+
         ]);
         $inscripcion = Inscripcion::find($id);
         if (!$inscripcion || $inscripcion->idinstitucion != Auth::User()->idinstitucion) {
@@ -212,25 +168,31 @@ class AlumnosController extends Controller
             return $this->index();
         }
         /** Se inicia la actualizacion de la tabla inscripciones */
-
-        $inscripcion->idestado = $request->idestado;
-        $inscripcion->idgrado   = $request->idgrado;
-        $inscripcion->idseccion = $request->idseccion;
-        $inscripcion->comentario = $request->otro;
+        $comprobar = Inscripcion::where('idinstitucion', Auth::User()->idinstitucion)->where('codigo', $request->codigo)->where('idinscripcion', '!=', $inscripcion->idinscripcion)->count();
+        if ($comprobar > 0) {
+            Flash::error("El codigo ya pertenece a otro alumno")->important();
+            return redirect()->route('alumnos.edit', $inscripcion->idinscripcion);
+        }
+        $inscripcion->codigo     = $request->codigo;
+        $inscripcion->nombre     = $request->nombre;
+        $inscripcion->apellido   = $request->apellido;
+        $inscripcion->genero     = $request->genero;
         $inscripcion->nacimiento = $request->nacimiento;
-        $inscripcion->encargado= $request->encargado;
-        $inscripcion->contacto= $request->telencargado;
-        $inscripcion->direccion= $request->direccion;
-        $inscripcion->nombre= $request->nombre;
-        $inscripcion->apellido= $request->apellido;
-        $inscripcion->codigo= $request->codigo;
-        $inscripcion->actualizador= Auth::User()->idusuario;
+        $inscripcion->idestado   = $request->idestado;
+        $inscripcion->direccion  = $request->direccion;
+
+        $inscripcion->idgrado    = $request->idgrado;
+        $inscripcion->encargado  = $request->encargado;
+        $inscripcion->contacto   = $request->telencargado;
+        $inscripcion->comentario = $request->otro;
+
+        $inscripcion->actualizador = Auth::User()->idusuario;
         //dd($inscripcion);
         $inscripcion->save();
         //dd($inscripcion);
         Flash::success("El alumno $inscripcion->nombre $inscripcion->apellido se ha modificado exitosmente")->important();
         return redirect()->route('alumnos.index');
-        
+
     }
     public function destroy($id)
     {
@@ -244,71 +206,5 @@ class AlumnosController extends Controller
         Flash::success("La inscripcion del alumno se ha eliminado exitosamente")->important();
         return $this->index();
     }
-    public function agregar(Request $request)
-    {
-        $ciclo = Auth::User()->institucion->ciclo;
-        //dd($request->all());
-        if ($request->update == 1) {
-            $response = array(
-                "message" => "false",
-                "title"   => "Peticion Recibida",
-                "body"    => "aqui actualizarias el contenido",
-                "type"    => "warning",
 
-            );
-            return $response;
-        }
-        if ($request->idusuario != "" || $request->idusuario != 0) {
-            $item        = User::find($request->idusuario);
-            $inscripcion = Inscripcion::where("idinstitucion", "=", Auth::User()->institucion->idinstitucion)->where("idusuario", "=", $item->idusuario)->where("ciclo", "=", $ciclo)->first();
-            if ($inscripcion) {
-                $response = array(
-                    "message" => "false",
-                    "title"   => "Alumno Inscrito",
-                    "body"    => "El alumno $inscripcion->nombre $inscripcion->apellido ya se encuentra inscrito en " . Auth::User()->institucion->abr . " para el ciclo escolar  $request->ciclo",
-                    "type"    => "warning",
-
-                );
-                return $response;
-            }
-        }
-        $item                = new User($request->all());
-        $item->usuario       = $request->codigo;
-        $ps                  = date("Y", strtotime($request->nacimiento));
-        $item->password      = bcrypt($ps);
-        $item->idtipousuario = 4;
-        $item->idinstitucion = Auth::User()->institucion->idinstitucion;
-        $item->codigo        = $request->codigo;
-
-        $item->save();
-        $inscrip                = new Inscripcion($request->all());
-        $inscrip->ciclo         = Auth::User()->institucion->ciclo;
-        $inscrip->idusuario     = $item->idusuario;
-        $inscrip->idgrado       = $request->idgrado;
-        $inscrip->idseccion     = $request->idseccion;
-        $inscrip->encargado     = $request->encargado;
-        $inscrip->contacto      = $request->telencargado;
-        $inscrip->comentario      = $request->otro;
-        $inscrip->nombre        = $item->nombre;
-        $inscrip->apellido      = $item->apellido;
-        $inscrip->codigo        = $item->codigo;
-        $inscrip->codigo        = $item->nacimiento;
-        $inscrip->registrador   = Auth::User()->idusuario;
-        $inscrip->idinstitucion = Auth::User()->institucion->idinstitucion;
-        $inscrip->idestado      = 1;
-        $inscrip->resultado     = 2;
-        //return $inscrip;
-        $inscrip->save();
-        //return $inscrip;
-        $response = array(
-            "message" => "true",
-            "title"   => "Exito",
-            "body"    => "El alumno ha sido inscrito exitosamente",
-            "type"    => "success",
-            "usuario" => $inscrip,
-
-        );
-        return $response;
-
-    }
 }
