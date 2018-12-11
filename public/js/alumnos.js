@@ -50,12 +50,15 @@ function tarjetaAlumno(alumno) {
     acard += '<p class="description mt-3">' + val.grado.nombre + ' ' + val.grado.seccion + '</p>';
     acard += '<span class="badge badge-pill badge-primary">' + val.nacimiento + '</span>';
     acard += '<span class="badge badge-pill badge-primary">' + val.edad + '</span>';
-    if (val.idestado = 1) {
+    if (val.idestado == 1) {
         acard += '<span class="badge badge-pill badge-success"> Activo </span>';
+    }
+    if (val.idestado == 2) {
+        acard += '<span class="badge badge-pill badge-danger"> Retirado </span>';
     }
     acard += '</div>';
     acard += '<a href="' + val.editar + '" class="btn btn-warning btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Información" ><i class="ti-pencil"></i> Editar</a>';
-    acard += '<a href="#" class="btn btn-info btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Foto"><i class="ti-image"></i> Cambiar Foto</a>';
+    acard += '<a href="' + val.rutafoto + '" class="btn btn-info btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Foto"><i class="ti-image"></i> Cambiar Foto</a>';
     acard += '<a href="#" class="btn btn-success btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Ver Pagos"><i class="ti-money"></i> Ver Pagos</a>';
     acard += '</div>';
     acard += '</div>';

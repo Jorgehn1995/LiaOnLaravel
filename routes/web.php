@@ -73,6 +73,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
      * RUTAS RARA ALUMNOS
      */
     Route::resource('alumnos', 'AlumnosController');
+    Route::post('alumnos/foto/{id}', 'AlumnosController@subirfoto')->name('alumnos.subirfoto');
+    Route::get('alumnos/foto/{id}','AlumnosController@foto')->name('alumnos.foto');
     Route::get('alumnos/json/autocompletado/', 'AlumnosController@autocompletado')->name('alumnos.autocompletado');
     Route::get('alumnos/json/grados', 'AlumnosController@grados')->name('alumnos.grados');
     Route::get('alumnos/json/inscritos', 'AlumnosController@inscritos')->name('alumnos.inscritos');

@@ -36,7 +36,7 @@
   <link type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.28/dist/sweetalert2.css" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('collegetheme/assets/css/cropper.css')}}">
   <link rel="stylesheet" href="{{asset('theme 2/plugins/jquery-ui/jquery-ui.css')}}">
-
+  <link rel="stylesheet" href="{{asset('theme 2/plugins/dropzone/dropzone.css')}}">
 
 
   <script src="{{asset('theme 2/js/modernizr.min.js')}}"></script>
@@ -245,7 +245,7 @@
   <script src="{{asset('theme 2/plugins/notifyjs/dist/notify.min.js')}}"></script>
   <script src="{{asset('theme 2/plugins/jquery-ui/jquery-ui.js')}}"></script>
 
-
+  <script src="{{asset('theme 2/plugins/dropzone/dropzone.js')}}"></script>
   <!--chart-->
   <script src="{{asset('theme 2/plugins/morris/morris.min.js')}}"></script>
   <script src="{{asset('theme 2/plugins/raphael/raphael-min.js')}}"></script>
