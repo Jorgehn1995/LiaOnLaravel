@@ -28,7 +28,7 @@
   <!-- Argon CSS -->
   <link href="{{asset('theme 2/css/icons.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('theme 2/plugins/switchery/switchery.min.css')}}" rel="stylesheet" type="text/css" />
-
+  <link rel="stylesheet" href="{{asset('theme 2/plugins/morris/morris.css')}}">
 
   <link type="text/css" href="{{asset('collegetheme/assets/css/style.css')}}" rel="stylesheet">
   <link type="text/css" href="{{asset('collegetheme/assets/css/argon.css')}}" rel="stylesheet">
@@ -246,7 +246,9 @@
   <script src="{{asset('theme 2/plugins/jquery-ui/jquery-ui.js')}}"></script>
 
 
-
+  <!--chart-->
+  <script src="{{asset('theme 2/plugins/morris/morris.min.js')}}"></script>
+  <script src="{{asset('theme 2/plugins/raphael/raphael-min.js')}}"></script>
 
   <!-- Argon JS -->
   <!-- Custom main Js -->
