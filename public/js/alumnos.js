@@ -46,7 +46,7 @@ function tarjetaAlumno(alumno) {
     acard += '<p class=" m-b-5 font-13"><strong>' + val.nombre + ' ' + val.apellido + '</strong></p>';
     acard += '</div>';
     acard += '</div>';
-    acard += '<div> <br>';
+    acard += '<div>';
     acard += '<p class="description mt-3">' + val.grado.nombre + ' ' + val.grado.seccion + '</p>';
     acard += '<span class="badge badge-pill badge-primary">' + val.nacimiento + '</span>';
     acard += '<span class="badge badge-pill badge-primary">' + val.edad + '</span>';
@@ -57,9 +57,11 @@ function tarjetaAlumno(alumno) {
         acard += '<span class="badge badge-pill badge-danger"> Retirado </span>';
     }
     acard += '</div>';
+    acard += '<div class="btn-group">';
     acard += '<a href="' + val.editar + '" class="btn btn-warning btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Información" ><i class="ti-pencil"></i> Editar</a>';
     acard += '<a href="' + val.rutafoto + '" class="btn btn-info btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Editar Foto"><i class="ti-image"></i> Cambiar Foto</a>';
     acard += '<a href="#" class="btn btn-success btn-sm mt-4" data-toggle="tooltip" data-placement="top" title="Ver Pagos"><i class="ti-money"></i> Ver Pagos</a>';
+    acard += '</div>';
     acard += '</div>';
     acard += '</div>';
     acard += '</div>';

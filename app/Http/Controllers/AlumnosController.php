@@ -22,6 +22,8 @@ class AlumnosController extends Controller
             $alumnos->grado;
             if (!$alumnos->foto) {
                 $alumnos->foto = asset('images/app/user.jpg');
+            }else{
+                $alumnos->foto= asset('images/users')."/". $alumnos->foto;
             }
             $alumnos->rutafoto = route('alumnos.foto', $alumnos->idinscripcion);
             $alumnos->editar   = route('alumnos.edit', $alumnos->idinscripcion);
@@ -215,31 +217,39 @@ class AlumnosController extends Controller
             Flash::error('Error al encontrar la inscripcion')->important();
             return redirect()->route('alumnos.index');
         }
-        if ($inscripcion->foto == "") {
-            $inscripcion->foto = asset('images/app/user.jpg');
-
-        }
+        
         return view('admin.alumnos.foto')->with('inscripcion', $inscripcion);
     }
-    public function subirfoto(Request $request,$id)
+    public function subirfoto(Request $request, $id)
     {
         $inscripcion = Inscripcion::find($id);
         if (!$inscripcion || $inscripcion->idinstitucion != Auth::User()->idinstitucion) {
             return response()->json('error', 400);
         }
-        
-        $image          = $request->file('file');
-        $imageName      = time() . $image->getClientOriginalName();
-        $inscripcion->foto = asset('images/users')."/".$imageName;
+
+        $image             = $request->file('file');
+        $imageName         = time() . $image->getClientOriginalName();
+        $inscripcion->foto = $imageName;
         $inscripcion->save();
         $upload_success = $image->move(public_path('images/users'), $imageName);
         if ($upload_success) {
-            return $inscripcion->foto;
+            return asset('images/users') . "/" . $inscripcion->foto;
         }
         // Else, return error 400
         else {
             return response()->json('error', 400);
         }
 
+    }
+    public function fotodestroy($id){
+        $inscripcion = Inscripcion::find($id);
+        if (!$inscripcion || $inscripcion->idinstitucion != Auth::User()->idinstitucion) {
+            Flash::error('Error al encontrar la inscripcion')->important();
+            return redirect()->route('alumnos.index');
+        }
+        $inscripcion->foto="";
+        $inscripcion->save();
+        Flash::success('Foto eliminada de forma correcta')->important();
+        return redirect()->route('alumnos.index');
     }
 }

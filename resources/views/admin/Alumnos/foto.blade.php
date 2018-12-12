@@ -30,12 +30,20 @@
 @endsection
  
 @section('content')
-<div class="col-xl-12 col-lg-4">
+<div class="col-md-4">
+    <div class="btn-group">
+
+        <button type="button" onclick="location.href='{{route('alumnos.index')}}'" class="btn btn-secondary"><i class="ti-arrow-left"></i> Regresar</button>
+    </div>
+</div>
+<div class="col-md-4">
     <div class="text-center ">
         <div class="member-card">
             <div class="thumb-xl member-thumb m-b-10 center-block" id="divfotoperfil">
+                @if ($inscripcion->foto=="")
+                <img src="{{asset('images/app/user.jpg')}}" class="rounded-circle img-thumbnail avatar" alt="profile-image">                @else
+                <img src="{{asset('images/users')}}/{{$inscripcion->foto}}" class="rounded-circle img-thumbnail avatar" alt="profile-image">                @endif
 
-                <img src="{{$inscripcion->foto}}" class="rounded-circle img-thumbnail avatar" alt="profile-image">
             </div>
 
             <div class="">
@@ -52,12 +60,17 @@
                     <input name="file" type="files" multiple accept="image/jpeg, image/png, image/jpg" />
                 </div>
             </form>
-
-
         </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="btn-group pull-right">
+        <form action="{{route('alumnos.fotodestroy',$inscripcion->idinscripcion)}}" method="POST">
+            @csrf {{ method_field('delete') }}
+            <button type="submit" class="btn btn-danger"><i class="ti-trash"></i> Eliminar</button>
+        </form>
 
     </div>
-
 </div>
 <!-- end col -->
 @endsection

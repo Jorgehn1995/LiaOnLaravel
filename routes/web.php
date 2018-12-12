@@ -32,6 +32,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
      * RUTAS PRINCIPALES
      */
     Route::get('/', 'GraficasController@home')->name('admin.index');
+    Route::get('institucion','InstitucionesController@index')->name('institucion.index');
+    Route::put('institucion/edit/{idinstitucion}', 'InstitucionesController@update')->name('institucion.update');
+    Route::post('institucion/logo/{idinstitucion}','InstitucionesController@logo')->name('institucion.logo');
+
 
     Route::get('/ajustes', function () {
         return view('admin.ajustes.index');
@@ -73,11 +77,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
      * RUTAS RARA ALUMNOS
      */
     Route::resource('alumnos', 'AlumnosController');
-    Route::post('alumnos/foto/{id}', 'AlumnosController@subirfoto')->name('alumnos.subirfoto');
-    Route::get('alumnos/foto/{id}','AlumnosController@foto')->name('alumnos.foto');
     Route::get('alumnos/json/autocompletado/', 'AlumnosController@autocompletado')->name('alumnos.autocompletado');
     Route::get('alumnos/json/grados', 'AlumnosController@grados')->name('alumnos.grados');
     Route::get('alumnos/json/inscritos', 'AlumnosController@inscritos')->name('alumnos.inscritos');
+
+    /**
+     * RUTAS PARA AGREGAR LA FOTO A ALUMNOS
+     */
+    Route::post('alumnos/foto/{id}', 'AlumnosController@subirfoto')->name('alumnos.subirfoto');
+    Route::get('alumnos/foto/{id}', 'AlumnosController@foto')->name('alumnos.foto');
+    Route::delete('alumnos/foto/{id}', 'AlumnosController@fotodestroy')->name('alumnos.fotodestroy');
+
+
 
     /**
      * RUTAS PARA GRAFICAS ADMIN DE INICIO
