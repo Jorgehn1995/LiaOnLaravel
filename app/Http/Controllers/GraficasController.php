@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Grado;
 use App\Inscripcion;
 use Carbon\Carbon;
+use App\Bloque;
 use Illuminate\Support\Facades\Auth;
 
 class GraficasController extends Controller
 {
     public function home()
     {
-
-        return view('admin.index')->with('cantidad', $this->cantidad())->with('grados', $this->grados())->with('edades', $this->edades())->with('inscritosdia', $this->inscritosdia());
+        $bloques = Bloque::Where('idinstitucion', Auth::User()->idinstitucion)->where('eliminado', 0)->get();
+        
+        return view('admin.index')->with('institucion',Auth::User()->institucion)->with('cantidad', $this->cantidad())->with('grados', $this->grados())->with('edades', $this->edades())->with('inscritosdia', $this->inscritosdia())->with('bloques', $bloques);
     }
     public function index()
     {
@@ -27,7 +29,7 @@ class GraficasController extends Controller
         $response['retirados'] = Inscripcion::where('idinstitucion', Auth::User()->idinstitucion)->where('idestado', 2)->where('ciclo', Auth::User()->institucion->ciclo)->count();
         $response['hombres']   = Inscripcion::where('idinstitucion', Auth::User()->idinstitucion)->where('idestado', 1)->where('ciclo', Auth::User()->institucion->ciclo)->where('genero', 'm')->count();
         $response['mujeres']   = Inscripcion::where('idinstitucion', Auth::User()->idinstitucion)->where('idestado', 1)->where('ciclo', Auth::User()->institucion->ciclo)->where('genero', 'f')->count();
-        $response['total']     = $response['hombres'] + $response['mujeres'];
+        $response['total']     = $response['hombres'] + $response['mujeres']+ $response['retirados'];
         return $response;
     }
     public function grados()
