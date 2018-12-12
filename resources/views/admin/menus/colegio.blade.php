@@ -8,5 +8,7 @@
         <a class="nav-link" href="{{route('cuadros.index')}}">Actividades</a>
         <a href="{{route('bloques.index')}}" class="nav-link">Bloques</a>
         <a class="nav-link" href="{{route('ajustes.index')}}">Ajustes</a>
+
+        <a class="nav-link" href="{{route('logout')}}">Salir</a>
     </nav>
 </div>

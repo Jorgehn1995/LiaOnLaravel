@@ -1,5 +1,5 @@
 @extends('admin.layout') 
-@section('title', "Inicio") 
+@section('title', "Campus Virtual") 
 @section('css')
 <style type="text/css">
     .avatar {

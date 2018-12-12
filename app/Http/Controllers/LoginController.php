@@ -25,6 +25,7 @@ class LoginController extends Controller
             $name=explode(" ",Auth::User()->nombre);
             $lastname=explode(" ",Auth::User()->apellido);
             $last="";
+            
             if(!isset($lastname[1])){
                 //dd($lastname[0]);
                 if ($lastname[0]=="De" ||$lastname[0]=="de"){
@@ -39,7 +40,7 @@ class LoginController extends Controller
             $user->save();
             $this->redirectTo = url()->previous(); //LO AGREGAMOS PARA OBTENER LA URL ANTERIOR
             
-            return redirect('admin');
+            return redirect()->route('admin.index');
         } else {
             flash("Usuario o Contraseña Invalido")->error();
 
@@ -55,15 +56,13 @@ class LoginController extends Controller
     public function check()
     {
         if (Auth::check()) {
-            
-
-
-
             $usuario = Auth::User();
             $name=explode(" ",Auth::User()->nombre);
             $lastname=explode(" ",Auth::User()->apellido);
+            
+
             $last="";
-            if(!is_null($lastname[1])){
+            if(!isset($lastname[1])){
                 //dd($lastname[0]);
                 if ($lastname[0]=="De" ||$lastname[0]=="de"){
                     $last=$lastname[0]." ".$lastname[1];
@@ -77,7 +76,7 @@ class LoginController extends Controller
             $usuario->save();
         
             if ($usuario->idtipousuario == 2) {
-                return redirect('admin');
+                return redirect()->route('admin.index');
             }
         } else {
 

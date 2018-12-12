@@ -26,20 +26,31 @@ Route::group(['prefix' => 'master', 'middleware' => 'auth'], function () {
     Route::resource('usuarios', 'UsuariosController');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'secretaria', 'middleware' => 'auth'], function () {
+    Route::get('/ajustes', function () {
+        return view('admin.ajustes.index');
+    })->name('ajustes.index');
 
     /**
      * RUTAS PRINCIPALES
      */
     Route::get('/', 'GraficasController@home')->name('admin.index');
-    Route::get('institucion','InstitucionesController@index')->name('institucion.index');
+
+    /**
+     * RUTAS PARA MODIFICAR INSTITUCION
+     */
+    Route::get('institucion', 'InstitucionesController@index')->name('institucion.index');
     Route::put('institucion/edit/{idinstitucion}', 'InstitucionesController@update')->name('institucion.update');
-    Route::post('institucion/logo/{idinstitucion}','InstitucionesController@logo')->name('institucion.logo');
+    Route::post('institucion/logo/{idinstitucion}', 'InstitucionesController@logo')->name('institucion.logo');
 
-
-    Route::get('/ajustes', function () {
-        return view('admin.ajustes.index');
-    })->name('ajustes.index');
+    /**
+     * RUTAS PARA ADMINISTRADORES
+     */
+    //Route::resource('administradores','AdministradoresController');
+    Route::get('perfil', 'AdministradoresController@perfil')->name('admin.perfil');
+    Route::put('perfil', 'AdministradoresController@perfilupdate')->name('admin.perfil.update');
+    Route::put('perfil/pass', 'AdministradoresController@changepassword')->name('admin.perfil.changepassword');
+    Route::post('perfil/foto', 'AdministradoresController@updatefoto')->name('admin.perfil.updatefoto');
 
     /**
      * RUTAS PROFESORES
@@ -88,7 +99,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('alumnos/foto/{id}', 'AlumnosController@foto')->name('alumnos.foto');
     Route::delete('alumnos/foto/{id}', 'AlumnosController@fotodestroy')->name('alumnos.fotodestroy');
 
-
+    /**
+     * RUTAS PARA LISTADOS
+     */
+    Route::get('listados','ListadosController@index')->name('listados.index');
 
     /**
      * RUTAS PARA GRAFICAS ADMIN DE INICIO

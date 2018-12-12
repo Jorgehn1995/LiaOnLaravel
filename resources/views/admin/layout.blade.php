@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Start your development with a Design System for Bootstrap 4.">
-  <meta name="author" content="Creative Tim"> @if (Auth::User()->idinstitucion==0)
+  <meta name="description" content="Campus Virtual para Colegios">
+  <meta name="author" content="Jorge Hernández">
+  <meta name="theme-color" content="#002b46" /> @if (Auth::User()->idinstitucion==0)
   <title>Bienvenido :. @yield('title')</title>
   @else
   <title>{{Auth::User()->institucion->abr}} :. @yield('title')</title>
@@ -13,7 +14,7 @@
 
 
 
-  <meta name="theme-color" content="#002b46" />
+
   <!-- Favicon -->
   <link href="{{asset('collegetheme/assets/img/brand/favicon.png')}}" rel="icon" type="image/png">
   <!-- Fonts -->
@@ -64,12 +65,12 @@
 
 <body>
   <header class="header-global">
-
     <nav id="navbar-main" class="navbar navbar-main fixed-top navbar-expand-lg navbar-dark bg-college headroom">
       <div class="container">
         <a class="navbar-brand mr-lg-5" href="{{route('logincheck')}}">
-					<img src="{{asset('collegetheme/assets/img/brand/white.png')}}">
-				</a>
+          <span>{{Auth::User()->institucion->abr}}</span>
+          <!--<img src="{{asset('collegetheme/assets/img/brand/white.png')}}">-->
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -80,8 +81,9 @@
             <div class="row">
               <div class="col-6 collapse-brand">
                 <a href="{{route('logincheck')}}">
-									<img src="{{asset('collegetheme/assets/img/brand/blue.png')}}">
-								</a>
+                  <span>{{Auth::User()->institucion->abr}}</span>
+                  <!--<img src="{{asset('collegetheme/assets/img/brand/blue.png')}}">-->
+                </a>
               </div>
               <div class="col-6 collapse-close">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global"
@@ -100,7 +102,7 @@
                                 <span class="nav-link-inner--text">{{Auth::User()->institucion->abr}}</span>
                             </a>
             </li>
-            @endif @if (Auth::User()->idinstitucion!=0)
+            @endif
             <li class="nav-item dropdown">
               <a href="#" class="nav-link" data-toggle="dropdown" href="#" role="button">
 								<i class="ni ni-collection d-lg-none"></i>
@@ -110,7 +112,7 @@
                 <a href="{{asset('collegetheme/examples/landing.html')}}" class="dropdown-item">Primero Básico A <span class="badge badge-success">INEBCO</span></a>
               </div>
             </li>
-            @endif
+
           </ul>
           <ul class="navbar-nav align-items-lg-center ml-lg-auto">
             <li class="nav-item">
@@ -121,38 +123,19 @@
             </li>
             <li class="nav-item dropdown">
               <a href="#" class="nav-link" data-toggle="dropdown" href="#" role="button">
+                
                 @if(Auth::User()->foto=="")
                   <img src="{{asset('images/app/user.jpg')}}" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 20px;">
                   @else
-                  <img src="{{asset('collegetheme/assets/img/theme/team-2-800x800.jpg')}}" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 20px;">
+                  <img src="{{asset('images/users')}}/{{Auth::User()->foto}}" alt="Circle image" class="img-fluid rounded-circle shadow" style="width: 20px;">
                   @endif
 
                   <span class="nav-link-inner--text">{{Auth::User()->socialname}}</span>
               </a>
 
               <div class="dropdown-menu dropdown-menu-sm">
-                <div class="dropdown-menu-inner">
-                  @foreach(Auth::User()->roles as $admin)
-                  <a href="https://demos.creative-tim.com/argon-design-system/docs/getting-started/overview.html'" class="media d-flex align-items-center">
-                    <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
-                      @if ($admin->logo=="")
-                      <i class="ni ni-hat-3"></i> @endif
-                    </div>
-                    <div class="media-body ml-3">
-                      <h6 class="heading text-primary mb-md-1">{{$admin->institucion->abr}}</h6>
-                      <p class="description d-none d-md-inline-block mb-0">Ciclo {{$admin->institucion->ciclo}}</p>
-                    </div>
-                  </a>
-                  @endforeach
-
-                </div>
-                <a href="{{asset('collegetheme/examples/profile.html')}}" class="dropdown-item"><i class="ni ni-badge"></i> Perfil</a>
-                <a href="{{asset('collegetheme/examples/register.html')}}" class="dropdown-item"><i class="ni ni-settings"></i> Ajustes</a>
+                <a href="{{route('admin.perfil')}}" class="dropdown-item"><i class="ni ni-badge"></i> Perfil</a>
                 <a href="{{route('logout')}}" class="dropdown-item"><i class="ni ni-button-power"></i> Salir</a>
-
-
-
-
               </div>
             </li>
           </ul>
@@ -172,8 +155,6 @@
     <div class="row m-t-20">
       @yield('content')
     </div>
-
-
   </main>
   <footer class="footer has-cards">
 
@@ -207,7 +188,7 @@
         <div class="col-md-6">
           <div class="copyright">
             &copy; 2018
-            <a href="https://www.creative-tim.com" class="text-default" target="_blank">LIA Solutions</a>.
+            <a href="https://www.creative-tim.com" class="text-default" target="_blank">ITE Technology Development Centre</a>.
           </div>
         </div>
         <div class="col-md-6">
