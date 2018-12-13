@@ -102,7 +102,7 @@ Route::group(['prefix' => 'secretaria', 'middleware' => 'auth'], function () {
     /**
      * RUTAS PARA LISTADOS
      */
-    Route::get('listados','ListadosController@index')->name('listados.index');
+    Route::get('listados/mostrar/{id?}','ListadosController@index')->name('listados.index');
 
     /**
      * RUTAS PARA GRAFICAS ADMIN DE INICIO

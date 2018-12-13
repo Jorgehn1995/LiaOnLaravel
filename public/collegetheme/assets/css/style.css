@@ -1948,6 +1948,9 @@ code, pre {
    Print css
 ============= */
 @media print {
+  .hide-print{
+    display:none;
+  }
   .logo, .breadcrumb, .page-title, .footer, .topbar, .btn-group.pull-right.m-t-15 {
     display: none;
     margin: 0;
